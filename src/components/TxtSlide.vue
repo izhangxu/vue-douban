@@ -1,0 +1,67 @@
+<template>
+    <div class="txt-slide-wrap">
+        <ul>
+            <li :class="{on: item.cur }" :style="stylesObject" v-for="(item, index) in txts" @click="updateParams(index)">{{item.txt}}</li>
+        </ul>
+    </div>
+</template>
+<script type="text/javascript">
+export default {
+    props: ['typeTxts'],
+    data() {
+        return {
+            txts: this.typeTxts
+        }
+    },
+    computed: {
+        stylesObject() {
+            let len = this.typeTxts.length;
+            return {
+                width: 100 / len + '%'
+            }
+        }
+    },
+    methods: {
+        updateParams(index) {
+            if (index == 0) {
+                return;
+            }
+            this.txts = this.txts.map((item, i) => {
+                if (i == index) {
+                    item.cur = 1;
+                } else {
+                    item.cur = 0;
+                }
+                return item;
+            })
+            this.$emit('update-params', this.txts);
+        }
+    }
+}
+</script>
+<style type="text/css">
+.txt-slide-wrap {
+    width: 100%;
+    height: 30px;
+    padding-bottom: 10px;
+    white-space: nowrap;
+}
+
+.txt-slide-wrap ul {
+    height: 100%
+}
+
+.txt-slide-wrap ul li {
+    float: left;
+    height: 24px;
+    line-height: 24px;
+    padding: 3px 0px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.txt-slide-wrap ul li.on {
+    border-bottom: 2px solid #ffe600;
+}
+</style>
