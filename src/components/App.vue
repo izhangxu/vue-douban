@@ -21,8 +21,8 @@
     </div>
 </template>
 <script>
-import ItemList from '../components/ItemList'
-import FooterBox from '../components/FooterBox'
+import ItemList from './ItemList'
+import FooterBox from './FooterBox'
 
 export default {
     name: 'app',
@@ -96,7 +96,7 @@ export default {
 }
 
 .y_section {
-    padding-left: 10px;
+    padding-left: 15px;
     background: #fff
 }
 

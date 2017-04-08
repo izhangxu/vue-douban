@@ -1,7 +1,7 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: showClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="changeParams" />
+            <input :class="[{on: showClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="recordTxt"/>
             <button class="y_subtn" @click="clearValue">清 空</button>
         </div>
     </div>
@@ -17,7 +17,8 @@ export default {
     data() {
         return {
             showClear: false,
-            value: this.defaultValue
+            value: this.defaultValue,
+            curTxtIndex: 1
         }
     },
     mounted() {
@@ -28,9 +29,14 @@ export default {
         }
     },
     methods: {
+        // 记录原始选中的txt的index
+        recordTxt () {
+            this.curTxtIndex = this.$parent.getCurTxtIndex() || 1
+        },
         // 搜索
-        updateValue: function(val) {
+        updateValue (val) {
             this.showClear = val ? true : false
+            this.changeParams()
             this.fetchData(val)
         },
         // 获取数据
@@ -45,9 +51,14 @@ export default {
                 })
                 .then(function(res) {
                     let data = JSON.parse(res.bodyText);
+
                     if (data.subjects) {
                         // console.log(data.subjects)
                         this.$parent.moviesData = data.subjects;
+                        if (!data.subjects.length) {
+                            this.$parent.setSelected(this.curTxtIndex)
+                            this.$parent.updateParams()
+                        }
                     }
                 })
         }, 500),

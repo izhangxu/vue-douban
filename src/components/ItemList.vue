@@ -1,15 +1,17 @@
 <template>
     <div class="y_list">
         <div class="row" v-for="item in moviesData">
-            <div class="y_img">
-                <img class="y_img" :src="item.images.small"></img>
-            </div>
-            <div class="y_txt">
-                <div class="t1">{{item.title}}</div>
-                <div class="t2">主演：{{item.newCasts}}</div>
-                <div class="t3">{{item.genres.join(',')}}</div>
-            </div>
-            <div class="y_yue">{{item.rating.average}}分</div>
+            <router-link :to="{ name: 'Detail', params: { id: item.id }}">
+                <div class="y_img">
+                    <img class="y_img" :src="item.images.small"></img>
+                </div>
+                <div class="y_txt">
+                    <div class="t1">{{item.title}}</div>
+                    <div class="t2">主演：{{item.newCasts}}</div>
+                    <div class="t3">{{item.genres.join(',')}}</div>
+                </div>
+                <div class="y_yue">{{item.rating.average}}分</div>
+            </router-link>
         </div>
         <div style="height:47px;"></div>
     </div>
@@ -20,12 +22,15 @@ export default {
 }
 </script>
 <style type="text/css">
-
 .y_list .row {
     padding: 10px 0 10px 0;
     overflow: hidden;
     border-bottom: solid 1px #f2f3f7;
     position: relative
+}
+
+.y_list .row a {
+    text-decoration: none;
 }
 
 .y_list .row .y_img {
@@ -56,6 +61,7 @@ export default {
 .y_list .row .y_txt .t2 {
     font-size: 12px;
     overflow: hidden;
+    color: #34495e;
 }
 
 .y_list .row .y_txt .t3 {
@@ -78,5 +84,6 @@ export default {
     margin: auto;
     border-radius: 100%;
     text-align: center;
+    color: #34495e;
 }
 </style>

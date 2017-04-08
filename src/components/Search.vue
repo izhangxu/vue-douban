@@ -1,19 +1,19 @@
 <template>
     <div class="wrap">
-        <search-input :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies"></search-input>
+        <search-input ref="search-input" :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies"></search-input>
         <div class="y_section" :style="styleObject">
-            <txt-slide :type-txts="options" v-if="true" @update-params="updateParams"></txt-slide>
+            <tab-txts ref="txtslide" :type-txts="options" v-if="true" @update-params="updateParams"></tab-txts>
             <item-list :movies-data="moviesData"></item-list>
         </div>
         <footer-Box :footer-cur="footerCur"></footer-box>
     </div>
 </template>
 <script>
-import ItemList from '../components/ItemList'
-import SearchInput from '../components/SearchInput'
-import FooterBox from '../components/FooterBox'
-import TxtSlide from '../components/TxtSlide'
-import util from '../lib/util'
+import ItemList from './ItemList'
+import SearchInput from './SearchInput'
+import FooterBox from './FooterBox'
+import TabTxts from './TabTxts'
+
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
@@ -71,7 +71,7 @@ export default {
         ItemList,
         SearchInput,
         FooterBox,
-        TxtSlide
+        TabTxts
     },
     mounted() {
         this.fetchData();
@@ -134,6 +134,9 @@ export default {
                 }
                 return item;
             });
+        },
+        getCurTxtIndex () {
+            return this.$refs.txtslide.getCurTxtIndex()
         }
     }
 }
