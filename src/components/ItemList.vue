@@ -48,7 +48,7 @@ export default {
 
 .y_list .row .y_txt {
     overflow: hidden;
-    padding: 0 144px 0 14px;
+    padding: 0 80px 0 14px;
     text-align: left
 }
 

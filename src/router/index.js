@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import App from '../components/App'
-import Search from '../components/Search'
+import Movie from '../components/Movie'
 import Detail from '../components/Detail'
+import Celebrity from '../components/Celebrity'
+import Admin from '../components/Admin'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
@@ -9,13 +11,21 @@ const routes = [{
     path: '/',
     component: App
 }, {
-	name: 'Search',
-    path: '/search',
-    component: Search
+	name: 'Movie',
+    path: '/movie',
+    component: Movie
 }, {
 	name: 'Detail',
 	path: '/detail/:id',
 	component: Detail
+},{
+	name: 'Celebrity',
+	path: '/celebrity/:id',
+	component: Celebrity
+}, {
+	name: 'Admin',
+	path: '/admin',
+	component: Admin
 }];
 
 export default new VueRouter({

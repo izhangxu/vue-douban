@@ -31,6 +31,30 @@
                     <span v-for="item in subject.genres">{{item}}</span>
                 </p>
             </section>
+            <section class="subject-casts">
+                <h2>导演</h2>
+                <div class="casts-wrap">
+                    <div class="casts-item" v-for="item in subject.directors">
+                        <router-link :to="{ name: 'Celebrity', params: { id: item.id }}">
+                            <img :src="item.avatars.medium" width="90" height="120">
+                            <p class="name">姓名：{{item.name}}</p>
+                            <p class="intro"><a :href="item.alt">豆瓣主页</a></p>
+                        </router-link>
+                    </div>
+                </div>
+            </section>
+            <section class="subject-casts">
+                <h2>主演列表</h2>
+                <div class="casts-wrap">
+                    <div class="casts-item" v-for="item in subject.casts">
+                        <router-link :to="{ name: 'Celebrity', params: { id: item.id }}">
+                            <img :src="item.avatars.medium" width="90" height="120">
+                            <p class="name">姓名：{{item.name}}</p>
+                            <p class="intro"><a :href="item.alt">豆瓣主页</a></p>
+                        </router-link>
+                    </div>
+                </div>
+            </section>
         </div>
         <div class="loading" v-show="!loaded">
             <div>loading...</div>
@@ -118,10 +142,6 @@ export default {
     overflow-x: hidden;
 }
 
-.page .card {
-    margin: 0 15px;
-}
-
 .subject-info {
     position: relative;
     margin-bottom: 30px;
@@ -157,12 +177,41 @@ export default {
     line-height: 1.6;
 }
 
-.subject-intro {
+.subject-casts .casts-wrap {
+    overflow: hidden;
+}
+
+.subject-intro,
+.subject-genres {
     margin-bottom: 30px;
 }
 
+.subject-intro .bd p {
+    /*text-indent: 2em;*/
+}
+
+.subject-casts .casts-item {
+    width: calc(100% / 2 - 5px);
+    overflow: hidden;
+    float: left;
+    margin:0 5px 20px 0;
+    font-size: 13px;
+    background: #f7f8fc;
+}
+
+.casts-item img {
+    display: block;
+    float: left;
+}
+
+.casts-item p {
+    float: left;
+    width: calc(100% - 103px);
+    margin-left: 7px;
+}
+
 h1 {
-    margin: 30px 0 5px;
+    margin: 10px 0 5px;
     font-size: 24px;
     line-height: 32px;
     word-break: break-all;

@@ -76,12 +76,17 @@ export default {
         },
         goSearchPage() {
             let word = this.keyword
-            this.$router.push({path: 'search', query: {word: word}});
+            this.$router.push({path: 'movie', query: {word: word}});
         }
     }
 }
 </script>
 <style type="text/css">
+.y_bg01 {
+    background: url(http://src.leju.com/imp/imp/deal/6e/7d/8/3db10c0bfc7b159d1cc1160e940_p49_mk45.jpg) no-repeat;
+    background-size: 100% auto;
+    overflow: hidden
+}
 .y_txtBox {
     position: absolute;
     left: 40px;

@@ -116,6 +116,7 @@ export default {
     border-radius: 0px 3px 3px 0px;
     background: #ffe600;
     position: absolute;
+    color: #714c12;
 }
 
 .y_shBox .y_search .y_clear {

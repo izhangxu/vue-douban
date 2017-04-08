@@ -1,8 +1,8 @@
 <template>
     <div class="y_toolbar">
-        <div :class="[{on: item.cur}, y_row]" v-for="(item, index) in newTxts" @click="selected(index)">
+        <div class="y_row" v-for="(item, index) in newTxts" @click="selected(index)">
             <a :href="item.href" target="_self">
-                <img class="y_toolic1_01" src="../assets/logo.png" />
+                <i :class="{footer_icon_01: item.icon[0], on: item.cur, footer_icon_02: item.icon[1], footer_icon_03: item.icon[2]}"></i>
                 <div class="txt">{{item.txt}}</div>
             </a>
         </div>
@@ -13,24 +13,27 @@ export default {
     props: ['footerCur'],
     data() {
         return {
-            y_row: 'y_row',
             txts: [{
                 txt: '首页',
                 href: '/#/',
+                icon: [1, 0, 0],
                 cur: 0
             }, {
                 txt: '电影',
-                href: '/#/search',
+                href: '/#/movie',
+                icon: [0, 1, 0],
                 cur: 0
             }, {
                 'txt': '我的',
+                href: '/#/admin',
+                icon: [0, 0, 1],
                 cur: 0
             }],
         }
     },
     computed: {
-        newTxts () {
-            return this.txts.map((item)=>{
+        newTxts() {
+            return this.txts.map((item) => {
                 if (item.txt == this.footerCur) {
                     item.cur = 1;
                 } else {
@@ -70,10 +73,12 @@ export default {
     height: 46px;
     border-top: solid 1px #fff
 }
+
 .y_toolbar .y_row a {
     text-decoration: none;
 }
-.y_toolbar .y_row img {
+
+.y_toolbar .y_row i {
     width: 20px;
     height: 20px;
     padding-top: 3px;
@@ -88,17 +93,41 @@ export default {
     height: 24px
 }
 
-.y_toolbar .on {
+
+/*.y_toolbar .on {
     background: #ffe600;
-}
+}*/
 
 .y_toolbar .on .txt {
     color: #425571
 }
 
-.y_toolic1_01,
-.y_toolic2_01,
-.y_toolic3_01 {
-    display: block
+.footer_icon_01,
+.footer_icon_02,
+.footer_icon_03 {
+    display: block;
+    background-size: contain;
+}
+
+.footer_icon_01.on {
+    background-image: url(../assets/index-on.png);
+}
+
+.footer_icon_01 {
+    background-image: url(../assets/index.png);
+}
+
+.footer_icon_02.on {
+    background-image: url(../assets/movie-on.png);
+}
+
+.footer_icon_02 {
+    background-image: url(../assets/movie.png);
+}
+.footer_icon_03.on {
+    background-image: url(../assets/admin-on.png);
+}
+.footer_icon_03 {
+    background-image: url(../assets/admin.png);
 }
 </style>
