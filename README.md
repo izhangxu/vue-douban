@@ -2,7 +2,7 @@
 
 > 豆瓣电影API做的vue项目，使用的vue + vue-router。
 
-![GIF 图片](/src/assets/md/2.gif)
+![GIF 图片](/src/assets/2.gif)
 
 ## 安装
 
