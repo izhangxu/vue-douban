@@ -19,4 +19,8 @@ npm run build
 
 ## 截图
 
-![GIF 图片](/assets/md/2.gif)
+![GIF 图片](/src/assets/md/2.gif)
+
+# License  
+
+MIT
