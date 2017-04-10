@@ -10,6 +10,8 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "cookie": "^0.3.1",
+    "cookie_js": "^1.2.2",
     "vue": "^2.2.2",
     "vue-multiselect": "^1.1.4",
     "vue-resource": "^1.2.1",

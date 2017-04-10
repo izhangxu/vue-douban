@@ -8,7 +8,8 @@ body {
     margin: 0
 }
 
-input, button {
+input,
+button {
     border: 0 none;
     outline: none;
     margin: 0;
@@ -51,6 +52,17 @@ li {
     vertical-align: middle;
     display: table-cell;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .3s
+}
+
+.fade-enter,
+.fade-leave-active {
+    opacity: 0
+}
+
 .smallstar10 {
     background: url(../assets/stars.png) no-repeat 0 0;
 }
@@ -98,4 +110,3 @@ li {
     vertical-align: middle;
     margin-right: 5px
 }
-

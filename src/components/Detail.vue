@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <div class="card" v-show="loaded">
+        <div class="card" v-if="subject">
             <h1 class="title">{{subject.title}}</h1>
             <section class="subject-info">
                 <div class="right">
@@ -10,9 +10,13 @@
                 </div>
                 <div class="left">
                     <p class="rating">
-                        <span class="rating-stars" v-run="register('stars')"></span>
-                        <strong v-if="subject.rating.average">{{subject.rating.average}}</strong>
-                        <span>{{subject.reviews_count}} 人评价</span>
+                        <template v-if="subject.rating.average">
+                            <span class="rating-stars" v-run="register('stars')"></span>
+                            <strong>{{subject.rating.average}}</strong>
+                        </template>
+                        <span>{{subject.reviews_count}}人评价</span>
+                        <span v-if="collectCls == true"><i class="collect-on" @click="collectMovie"></i>已收藏</span>
+                        <span v-else="collectCls == false"><i class="collect" @click="collectMovie"></i>收藏</span>
                     </p>
                     <p class="meta">
                         上映时间-{{subject.year}}，上映地点-{{subject.newCountries}}，导演-{{subject.newDirectors}}，主演-{{subject.newCasts}}
@@ -31,19 +35,19 @@
                     <span v-for="item in subject.genres">{{item}}</span>
                 </p>
             </section>
-           <section class="subject-casts" v-if="subject.directors.length">
+            <section class="subject-casts" v-if="subject.directors.length">
                 <h2>导演</h2>
                 <div class="casts-wrap">
                     <div class="casts-item" v-for="item in subject.directors">
                         <router-link :to="{ name: 'Celebrity', params: { id: item.id }}">
-                            <img :src="item.avatars.medium" width="90" height="120">
+                            <img v-if="item.avatars" :src="item.avatars.medium" width="90" height="120">
                             <p class="name">姓名：{{item.name}}</p>
                             <p class="intro"><a :href="item.alt">豆瓣主页</a></p>
                         </router-link>
                     </div>
                 </div>
             </section>
-             <section class="subject-casts" v-if="subject.casts.length">
+            <section class="subject-casts" v-if="subject.casts.length">
                 <h2>主演列表</h2>
                 <div class="casts-wrap">
                     <div class="casts-item" v-for="item in subject.casts">
@@ -56,25 +60,31 @@
                 </div>
             </section>
         </div>
-        <div class="loading" v-show="!loaded">
+        <div class="loading" v-if="!loaded">
             <div>loading...</div>
         </div>
     </div>
 </template>
 <script type="text/javascript">
+import {
+    cookie
+} from 'cookie_js'
+import _ from 'lodash'
+
 export default {
-    data() {
+        data() {
             return {
                 id: this.$route.params.id,
-                subject: {
-                    images: {},
-                    rating: {},
-                    genres: {},
-                    directors: [],
-                    casts: []
-                },
+                subject: null,
                 loaded: false,
+                collectCls: false,
                 elements: {}
+            }
+        },
+        mounted() {
+            let co = cookie.get('key')
+            if (co && ~co.indexOf(_.trim(this.id))) {
+                this.collectCls = true
             }
         },
         directives: {
@@ -86,7 +96,7 @@ export default {
                 }
             }
         },
-        beforeMount() {
+        created() {
             this.fetchData()
         },
         updated() {
@@ -96,6 +106,10 @@ export default {
             if (num) {
                 starsEle.innerHTML = '<span class="smallstar' + num + ' smallstar"></span>'
             }
+        },
+        watch: {
+            // 如果路由有变化，会再次执行该方法
+            '$route': 'fetchData'
         },
         methods: {
             register(flag) {
@@ -127,6 +141,21 @@ export default {
                         }
                         this.loaded = true
                     })
+            },
+            collectMovie() {
+                let pId = this.$route.params.id,
+                    title = this.subject.title,
+                    Exp = new RegExp('_*'+ pId + '\\|[^_]*\\|\\d+'),
+                    co = ''
+                if (cookie.get('key')) {
+                    co = cookie.get('key').replace(/^_*/, '')
+                }
+                if (!~co.indexOf(_.trim(pId))) {
+                    cookie.set('key', co + '___' + pId + '|' + title + '|' + new Date().getTime(), 7);
+                } else {
+                    cookie.set('key', co.replace(Exp, ''), 7);
+                }
+                this.collectCls = !this.collectCls
             }
         }
 }
@@ -167,6 +196,24 @@ export default {
     padding-right: 8px;
 }
 
+.subject-info .rating .collect {
+    height: 18px;
+    width: 18px;
+    vertical-align: bottom;
+    display: inline-block;
+    background-image: url(../assets/collect.png);
+    background-size: cover;
+}
+
+.subject-info .rating .collect-on {
+    height: 18px;
+    width: 18px;
+    vertical-align: bottom;
+    display: inline-block;
+    background-image: url(../assets/collect-on.png);
+    background-size: cover;
+}
+
 .subject-info .left .meta {
     margin-top: 15px;
     padding-right: 24px;
@@ -191,7 +238,7 @@ export default {
     width: calc(100% / 2 - 5px);
     overflow: hidden;
     float: left;
-    margin:0 5px 20px 0;
+    margin: 0 5px 20px 0;
     font-size: 13px;
     background: #f7f8fc;
 }
@@ -228,7 +275,7 @@ section p {
 }
 
 .subject-info .rating-stars {
-    margin-right: 15px
+    margin-right: 5px
 }
 
 .subject-genres p span {
@@ -242,5 +289,4 @@ section p {
     background: #f5f5f5;
     display: inline-block;
 }
-
 </style>

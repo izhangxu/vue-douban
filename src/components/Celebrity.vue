@@ -1,6 +1,6 @@
 <template>
     <div class="page">
-        <div class="celebrity" v-show="loaded">
+        <div class="celebrity" v-if="subject">
             <div class="base">
                 <div class="cover">
                     <img :src="subject.avatars.medium" width="92" alt="周星驰">
@@ -34,7 +34,7 @@
                 <span v-for="item in subject.aka">{{item}}</span>
             </div>
         </div>
-        <div class="loading" v-show="!loaded">
+        <div class="loading" v-if="!loaded">
             <div>loading...</div>
         </div>
     </div>
@@ -48,10 +48,7 @@ export default {
     data() {
             return {
                 id: this.$route.params.id,
-                subject: {
-                    avatars: {},
-                    aka: []
-                },
+                subject: null,
                 elements: [],
                 loaded: false
             }
@@ -65,7 +62,7 @@ export default {
                 }
             }
         },
-        beforeMount() {
+        created() {
             this.fetchData()
         },
         updated() {
