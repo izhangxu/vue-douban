@@ -13,7 +13,7 @@
         </div>
         <div class="y_section">
             <div class="y_tit">即将上映
-                <span class="y_more">更多</span>
+                <!-- <span class="y_more">更多</span> -->
             </div>
             <item-list :movies-data="moviesData"></item-list>
         </div>

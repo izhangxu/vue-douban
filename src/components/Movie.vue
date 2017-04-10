@@ -3,7 +3,12 @@
         <search-input ref="search-input" :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies"></search-input>
         <div class="y_section" :style="styleObject">
             <tab-txts ref="txtslide" :type-txts="options" v-if="true" @update-params="updateParams"></tab-txts>
-            <item-list :movies-data="moviesData"></item-list>
+            <div v-show="loaded">
+                <item-list :movies-data="moviesData"></item-list>
+            </div>
+            <div class="loading" v-show="!loaded">
+                <div>loading...</div>
+            </div>
         </div>
         <footer-Box :footer-cur="footerCur"></footer-box>
     </div>
@@ -14,10 +19,6 @@ import SearchInput from './SearchInput'
 import FooterBox from './FooterBox'
 import TabTxts from './TabTxts'
 
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
-
 export default {
     name: 'search',
     data() {
@@ -27,6 +28,7 @@ export default {
                 marginTop: '46px'
             },
             footerCur: '电影',
+            loaded: false,
             options: [{
                 cur: 0,
                 txt: '综合',
@@ -115,13 +117,16 @@ export default {
                                 return item;
                             }
                         })
+                        this.loaded = true
                     }
                 })
         },
         updateParams() {
+            this.loaded = false
             this.fetchData();
         },
         searchMovies() {
+            this.loaded = false
             this.setSelected(0);
             this.searchParams = this.options[0];
         },

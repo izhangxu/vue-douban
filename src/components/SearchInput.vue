@@ -7,10 +7,7 @@
     </div>
 </template>
 <script type="text/javascript">
-import Vue from 'vue'
-import VueResource from 'vue-resource'
 import _ from 'lodash'
-Vue.use(VueResource)
 
 export default {
     props: ['showPicker', 'searchParams', 'defaultValue'],
@@ -55,6 +52,7 @@ export default {
                     if (data.subjects) {
                         // console.log(data.subjects)
                         this.$parent.moviesData = data.subjects;
+                        this.$parent.loaded = true
                         if (!data.subjects.length) {
                             this.$parent.setSelected(this.curTxtIndex)
                             this.$parent.updateParams()
@@ -69,6 +67,9 @@ export default {
         clearValue() {
             this.value = ''
             this.showClear = false
+            this.$parent.moviesData = []
+            this.$parent.setSelected(this.curTxtIndex)
+            this.$parent.updateParams()
         }
     },
 

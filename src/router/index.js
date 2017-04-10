@@ -8,6 +8,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [{
+    name : 'App',
     path: '/',
     component: App
 }, {
@@ -29,5 +30,6 @@ const routes = [{
 }];
 
 export default new VueRouter({
+	mode: 'history',
     routes
 })

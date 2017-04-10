@@ -8,7 +8,7 @@ body {
     margin: 0
 }
 
-input {
+input, button {
     border: 0 none;
     outline: none;
     margin: 0;
@@ -33,5 +33,69 @@ ul,
 li {
     margin: 0;
     padding: 0
+}
+
+.loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    display: table;
+}
+
+.loading div {
+    vertical-align: middle;
+    display: table-cell;
+}
+.smallstar10 {
+    background: url(../assets/stars.png) no-repeat 0 0;
+}
+
+.smallstar9 {
+    background: url(../assets/stars.png) no-repeat 0 -17px;
+}
+
+.smallstar8 {
+    background: url(../assets/stars.png) no-repeat 0 -34px;
+}
+
+.smallstar7 {
+    background: url(../assets/stars.png) no-repeat 0 -51px;
+}
+
+.smallstar6 {
+    background: url(../assets/stars.png) no-repeat 0 -68px;
+}
+
+.smallstar5 {
+    background: url(../assets/stars.png) no-repeat 0 -85px;
+}
+
+.smallstar4 {
+    background: url(../assets/stars.png) no-repeat 0 -102px;
+}
+
+.smallstar3 {
+    background: url(../assets/stars.png) no-repeat 0 -119px;
+}
+
+.smallstar2 {
+    background: url(../assets/stars.png) no-repeat 0 -136px;
+}
+
+.smallstar1 {
+    background: url(../assets/stars.png) no-repeat 0 -153px;
+}
+
+.smallstar {
+    width: 63px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px
 }
 

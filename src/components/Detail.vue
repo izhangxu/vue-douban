@@ -19,7 +19,7 @@
                     </p>
                 </div>
             </section>
-            <section class="subject-intro">
+            <section class="subject-intro" v-if="subject.summary">
                 <h2>{{subject.title}}的剧情简介</h2>
                 <div class="bd">
                     <p>{{subject.summary}}</p>
@@ -31,7 +31,7 @@
                     <span v-for="item in subject.genres">{{item}}</span>
                 </p>
             </section>
-            <section class="subject-casts">
+           <section class="subject-casts" v-if="subject.directors.length">
                 <h2>导演</h2>
                 <div class="casts-wrap">
                     <div class="casts-item" v-for="item in subject.directors">
@@ -43,12 +43,12 @@
                     </div>
                 </div>
             </section>
-            <section class="subject-casts">
+             <section class="subject-casts" v-if="subject.casts.length">
                 <h2>主演列表</h2>
                 <div class="casts-wrap">
                     <div class="casts-item" v-for="item in subject.casts">
                         <router-link :to="{ name: 'Celebrity', params: { id: item.id }}">
-                            <img :src="item.avatars.medium" width="90" height="120">
+                            <img v-if="item.avatars" :src="item.avatars.medium" width="90" height="120">
                             <p class="name">姓名：{{item.name}}</p>
                             <p class="intro"><a :href="item.alt">豆瓣主页</a></p>
                         </router-link>
@@ -62,11 +62,6 @@
     </div>
 </template>
 <script type="text/javascript">
-import '../css/star.css'
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-
-Vue.use(VueResource)
 export default {
     data() {
             return {
@@ -74,7 +69,9 @@ export default {
                 subject: {
                     images: {},
                     rating: {},
-                    genres: {}
+                    genres: {},
+                    directors: [],
+                    casts: []
                 },
                 loaded: false,
                 elements: {}
@@ -246,20 +243,4 @@ section p {
     display: inline-block;
 }
 
-.loading {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    text-align: center;
-    display: table;
-}
-
-.loading div {
-    vertical-align: middle;
-    display: table-cell;
-}
 </style>

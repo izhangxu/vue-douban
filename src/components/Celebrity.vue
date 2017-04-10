@@ -23,15 +23,15 @@
                                 <p>{{item.subject.title}}</p>
                                 <p class="gray">作品别名：{{item.subject.original_title}}</p>
                                 <p class="roles">剧中身份：{{item.roles.join('、')}}</p>
-                                <p class="rank">{{item.subject.rating.average}}分</p>
+                                <p class="rank" v-run="register('rank')" :data-average="item.subject.rating.average"></p>
                             </div>
                         </router-link>
                     </section>
                 </div>
             </div>
             <div class="aka" v-if="subject.aka.length">
-            	<h2>江湖称呼</h2>
-            	<span v-for="item in subject.aka">{{item}}</span>
+                <h2>其他称呼</h2>
+                <span v-for="item in subject.aka">{{item}}</span>
             </div>
         </div>
         <div class="loading" v-show="!loaded">
@@ -49,18 +49,38 @@ export default {
             return {
                 id: this.$route.params.id,
                 subject: {
-                    avatars: {}
+                    avatars: {},
+                    aka: []
                 },
+                elements: [],
                 loaded: false
+            }
+        },
+        directives: {
+            run: {
+                inserted(el, binding) {
+                    if (typeof binding.value === 'function') {
+                        binding.value(el)
+                    }
+                }
             }
         },
         beforeMount() {
             this.fetchData()
         },
+        updated() {
+            let starsEle = this.elements
+            starsEle.forEach((item) => {
+                let num = Math.round(item.getAttribute('data-average'))
+                if (num) {
+                    item.innerHTML = '<span class="smallstar' + num + ' smallstar"></span>' + num + '分'
+                }
+            })
+        },
         methods: {
-            register(flag) {
+            register(flag, num) {
                 return (el) => {
-                    this.elements[flag] = el
+                    this.elements.push(el);
                 }
             },
             fetchData() {
@@ -73,7 +93,6 @@ export default {
                         let data = JSON.parse(res.bodyText);
                         if (data.id) {
                             this.subject = data
-
                         }
                         this.loaded = true
                     })
@@ -139,17 +158,20 @@ export default {
 }
 
 .elebrity .movies p.rank {
-    font-size: 13px;
+    font-size: 12px;
     color: #F56D4C;
 }
+
 .celebrity .movies p.roles {
-	font-size: 12px;
-	margin-top: 3px;
+    font-size: 12px;
+    margin-top: 3px;
 }
+
 .celebrity .aka {
-	margin-top: 30px;
+    margin-top: 30px;
 }
+
 .celebrity .aka span {
-	padding: 5px 15px 5px 0;
+    padding: 5px 15px 5px 0;
 }
 </style>

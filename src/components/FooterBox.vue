@@ -1,10 +1,10 @@
 <template>
     <div class="y_toolbar">
         <div class="y_row" v-for="(item, index) in newTxts" @click="selected(index)">
-            <a :href="item.href" target="_self">
+            <router-link :to="{ name: item.name, params: { id: item.id }}">
                 <i :class="{footer_icon_01: item.icon[0], on: item.cur, footer_icon_02: item.icon[1], footer_icon_03: item.icon[2]}"></i>
                 <div class="txt">{{item.txt}}</div>
-            </a>
+            </router-link>
         </div>
     </div>
 </template>
@@ -15,17 +15,17 @@ export default {
         return {
             txts: [{
                 txt: '首页',
-                href: '/#/',
+                name: 'App',
                 icon: [1, 0, 0],
                 cur: 0
             }, {
                 txt: '电影',
-                href: '/#/movie',
+                name: 'Movie',
                 icon: [0, 1, 0],
                 cur: 0
             }, {
-                'txt': '我的',
-                href: '/#/admin',
+                txt: '我的',
+                name: 'Admin',
                 icon: [0, 0, 1],
                 cur: 0
             }],
@@ -107,6 +107,7 @@ export default {
 .footer_icon_03 {
     display: block;
     background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .footer_icon_01.on {
