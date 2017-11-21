@@ -35,7 +35,6 @@ export default {
 
 .y_list .row .y_img {
     width: 90px;
-    height: 62px;
     float: left;
     position: relative
 }

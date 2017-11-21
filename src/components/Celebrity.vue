@@ -141,6 +141,7 @@ export default {
 
 .celebrity .movies .ii img {
     float: left;
+    width:90px;
     margin-right: 10px;
 }
 

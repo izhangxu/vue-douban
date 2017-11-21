@@ -5,7 +5,7 @@
             <section class="subject-info">
                 <div class="right">
                     <a href="javascript:;">
-                        <img :src="subject.images.medium" :alt="subject.title" class="cover">
+                        <img width="90" :src="subject.images.medium" :alt="subject.title" class="cover">
                     </a>
                 </div>
                 <div class="left">

@@ -9,7 +9,6 @@
         <div class="ty_noOrder" v-if="!subject">
             <div class="y_i ty_icon_noOrder"></div>
             <div class="ty_noOrder_text">没有收藏记录</div>
-            <!-- <navigator url="../index/index" class="ty_noOrder_btn" open-type="switchTab">免费预约看房</navigator> -->
         </div>
         <div class="ty_main_list" v-if="subject">
             <template v-for="item in subject">
