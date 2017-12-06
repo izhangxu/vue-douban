@@ -26,7 +26,7 @@
                 </router-link>
             </template>
         </div>
-        <footer-Box :footer-cur="footerCur" />
+        <footer-Box />
     </div>
 </template>
 <script type="text/javascript">

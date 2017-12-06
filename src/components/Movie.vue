@@ -1,14 +1,14 @@
 <template>
     <div class="wrap">
         <search-input ref="search-input" :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies" />
-        <div class="y_section" :style="styleObject">
+        <div class="y_section" style="marginTop: 46px">
             <tab-txts ref="txtslide" :type-txts="options" v-if="true" @update-params="updateParams" />
-            <div v-show="loaded">
+            <div v-show="!isLoading">
                 <item-list :movies-data="moviesData" />
             </div>
-            <loading :loading="loaded" />
+            <loading />
         </div>
-        <footer-Box :footer-cur="footerCur" />
+        <footer-Box />
     </div>
 </template>
 <script>
@@ -17,17 +17,13 @@ import SearchInput from './SearchInput'
 import FooterBox from './FooterBox'
 import TabTxts from './TabTxts'
 import Loading from './Loading'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'search',
     data() {
         return {
             defaultValue: this.$route.query.word || '',
-            styleObject: {
-                marginTop: '46px'
-            },
-            footerCur: '电影',
-            loaded: false,
             options: [{
                 cur: 0,
                 txt: '综合',
@@ -75,6 +71,11 @@ export default {
         TabTxts,
         Loading
     },
+    computed: {
+        ...mapGetters({
+            isLoading: 'isLoading'
+        })
+    },
     mounted() {
         this.fetchData();
     },
@@ -117,16 +118,16 @@ export default {
                                 return item;
                             }
                         })
-                        this.loaded = true
+                        this.$store.dispatch('loading', false);
                     }
                 })
         },
         updateParams() {
-            this.loaded = false
+            this.$store.dispatch('loading', true);
             this.fetchData();
         },
         searchMovies() {
-            this.loaded = false
+            this.$store.dispatch('loading', true);
             this.setSelected(0);
             this.searchParams = this.options[0];
         },

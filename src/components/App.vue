@@ -15,7 +15,7 @@
             <div class="y_tit">即将上映</div>
             <item-list :movies-data="moviesData" />
         </div>
-        <footer-Box :footer-cur="footerCur" />
+        <footer-Box />
     </div>
 </template>
 <script>
@@ -101,7 +101,7 @@ export default {
 }
 
 .y_section {
-    padding-left: 15px;
+    padding:0 15px;
     background: #fff
 }
 

@@ -1,61 +1,28 @@
 <template>
     <div class="y_toolbar">
-        <div class="y_row" v-for="(item, index) in newTxts" @click="selected(index)">
+        <div class="y_row" v-for="(item, index) in txts" @click="selected(index)">
             <router-link :to="{ name: item.name, params: { id: item.id }}">
-                <i :class="{footer_icon_01: item.icon[0], on: item.cur, footer_icon_02: item.icon[1], footer_icon_03: item.icon[2]}"></i>
+                <i :class="[item.class, {on: item.cur}]"></i>
                 <div class="txt">{{item.txt}}</div>
             </router-link>
         </div>
     </div>
 </template>
 <script type="text/javascript">
+import { mapGetters } from 'vuex'
 export default {
-    props: ['footerCur'],
-    data() {
-        return {
-            txts: [{
-                txt: '首页',
-                name: 'App',
-                icon: [1, 0, 0],
-                cur: 0
-            }, {
-                txt: '电影',
-                name: 'Movie',
-                icon: [0, 1, 0],
-                cur: 0
-            }, {
-                txt: '我的',
-                name: 'Admin',
-                icon: [0, 0, 1],
-                cur: 0
-            }]
-        }
-    },
     computed: {
-        newTxts() {
-            return this.txts.map((item) => {
-                if (item.txt == this.footerCur) {
-                    item.cur = 1;
-                } else {
-                    item.cur = 0;
-                }
-                return item;
-            })
-        }
+        ...mapGetters({
+            txts: 'txts'
+        })
     },
     methods: {
         selected(index) {
-            let txts = this.txts;
-            txts.forEach((item, i) => {
-                if (i == index) {
-                    item.cur = 1;
-                } else {
-                    item.cur = 0
-                }
-            })
+            this.$store.dispatch('selected', index)
         }
     }
 }
+
 </script>
 <style type="text/css">
 .y_toolbar {
@@ -94,6 +61,9 @@ export default {
 }
 
 
+
+
+
 /*.y_toolbar .on {
     background: #ffe600;
 }*/
@@ -125,10 +95,13 @@ export default {
 .footer_icon_02 {
     background-image: url(../assets/movie.png);
 }
+
 .footer_icon_03.on {
     background-image: url(../assets/admin-on.png);
 }
+
 .footer_icon_03 {
     background-image: url(../assets/admin.png);
 }
+
 </style>

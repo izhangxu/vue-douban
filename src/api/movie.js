@@ -1,36 +1,34 @@
-const movie_type = [{
-	cur: 0,
-	txt: '综合',
-	api: 'https://api.douban.com/v2/movie/search',
-	params: {
-		count: 10
+import * as types from '../mutation-types'
+import { data_movie_tabs } from '../../api/data';
+
+const state = {
+	defaultValue: this.$route.query.word || '',
+	
+};
+
+const getters = {
+	txts: state => state.txts
+};
+
+const actions = {
+	selected(cxt, index) {
+		cxt.commit(types.SELECT_TXTS, {
+			index
+		});
 	}
-}, {
-	cur: 0,
-	txt: '正在热映',
-	api: 'https://api.douban.com/v2/movie/in_theaters',
-	params: {
-		count: 10
+};
+
+const mutations = {
+	[types.SELECT_TXTS](state, opt) {
+		state.txts.forEach((item, i) => {
+			item.cur = i == opt.index ? true: false;
+		})
 	}
-}, {
-	cur: 0,
-	txt: '即将上映',
-	api: 'https://api.douban.com/v2/movie/coming_soon',
-	params: {
-		count: 10
-	}
-}, {
-	cur: 0,
-	txt: 'Top250',
-	api: 'https://api.douban.com/v2/movie/top250',
-	params: {
-		count: 10
-	}
-}, {
-	cur: 0,
-	txt: '北美票房榜',
-	api: 'https://api.douban.com/v2/movie/us_box',
-	params: {
-		count: 10
-	}
-}];
+};
+
+export default {
+  state,
+  getters,
+  actions,
+  mutations
+}

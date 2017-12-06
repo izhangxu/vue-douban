@@ -1,16 +1,16 @@
 <template>
-	<div class="loading" v-show="!loading">
+	<div class="loading" v-show="isLoading">
 		<div>loading...</div>
 	</div>
 </template>
 <script type="text/javascript">
+import { mapGetters } from 'vuex'
 export default {
-	props: {
-		loading: {
-			type: Boolean,
-			default: true
-		}
-	}
+	computed: {
+        ...mapGetters({
+            isLoading: 'isLoading'
+        })
+    }
 }
 
 </script>

@@ -1,1 +1,2 @@
-mutation - types.js
+export const SELECT_TXTS = 'SELECT_TXTS'
+export const LOADING_STATUS = 'LOADING_STATUS'
