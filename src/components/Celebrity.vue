@@ -3,7 +3,7 @@
         <div class="celebrity" v-if="subject">
             <div class="base">
                 <div class="cover">
-                    <img :src="subject.avatars.medium" width="92" alt="周星驰">
+                    <img :src="subject.avatars.medium" width="92" alt="">
                 </div>
                 <div class="r">
                     <h3>{{subject.name}}</h3>
@@ -34,68 +34,71 @@
                 <span v-for="item in subject.aka">{{item}}</span>
             </div>
         </div>
-        <div class="loading" v-if="!loaded">
-            <div>loading...</div>
-        </div>
+        <loading :loading="loaded" />
     </div>
 </template>
 <script type="text/javascript">
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import Loading from './Loading'
 
 Vue.use(VueResource)
 export default {
     data() {
-            return {
-                id: this.$route.params.id,
-                subject: null,
-                elements: [],
-                loaded: false
-            }
-        },
-        directives: {
-            run: {
-                inserted(el, binding) {
-                    if (typeof binding.value === 'function') {
-                        binding.value(el)
-                    }
+        return {
+            id: this.$route.params.id,
+            subject: null,
+            elements: [],
+            loaded: false
+        }
+    },
+    components: {
+        Loading
+    },
+    directives: {
+        run: {
+            inserted(el, binding) {
+                if (typeof binding.value === 'function') {
+                    binding.value(el)
                 }
-            }
-        },
-        created() {
-            this.fetchData()
-        },
-        updated() {
-            let starsEle = this.elements
-            starsEle.forEach((item) => {
-                let num = Math.round(item.getAttribute('data-average'))
-                if (num) {
-                    item.innerHTML = '<span class="smallstar' + num + ' smallstar"></span>' + num + '分'
-                }
-            })
-        },
-        methods: {
-            register(flag, num) {
-                return (el) => {
-                    this.elements.push(el);
-                }
-            },
-            fetchData() {
-                this.$http({
-                        url: 'https://api.douban.com/v2/movie/celebrity/' + this.id,
-                        method: 'jsonp',
-                        params: {}
-                    })
-                    .then(function(res) {
-                        let data = JSON.parse(res.bodyText);
-                        if (data.id) {
-                            this.subject = data
-                        }
-                        this.loaded = true
-                    })
             }
         }
+    },
+    created() {
+        this.fetchData()
+    },
+    updated() {
+        let starsEle = this.elements
+        starsEle.forEach((item) => {
+            let num = Math.round(item.getAttribute('data-average'))
+            if (num) {
+                item.innerHTML = '<span class="smallstar' + num + ' smallstar"></span>' + num + '分'
+            }
+        })
+    },
+    methods: {
+        register(flag, num) {
+            return (el) => {
+                this.elements.push(el);
+            }
+        },
+        fetchData() {
+            this.$http({
+                    url: 'https://api.douban.com/v2/movie/celebrity/' + this.id,
+                    method: 'jsonp',
+                    params: {}
+                })
+                .then(function(res) {
+                    let data = JSON.parse(res.bodyText);
+                    if (data.id) {
+                        this.subject = data
+                    }
+                    this.loaded = true
+                })
+        }
+    }
 }
+
 </script>
 <style type="text/css">
 .page {
@@ -141,7 +144,7 @@ export default {
 
 .celebrity .movies .ii img {
     float: left;
-    width:90px;
+    width: 90px;
     margin-right: 10px;
 }
 
@@ -172,4 +175,5 @@ export default {
 .celebrity .aka span {
     padding: 5px 15px 5px 0;
 }
+
 </style>

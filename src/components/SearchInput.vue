@@ -1,7 +1,7 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: showClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="recordTxt"/>
+            <input :class="[{on: showClear} ,'y_inp']" @input="updateValue($event.target.value)" @focus="recordTxt"/>
             <button class="y_subtn" @click="clearValue">清 空</button>
         </div>
     </div>

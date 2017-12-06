@@ -1,16 +1,14 @@
 <template>
     <div class="wrap">
-        <search-input ref="search-input" :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies"></search-input>
+        <search-input ref="search-input" :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies" />
         <div class="y_section" :style="styleObject">
-            <tab-txts ref="txtslide" :type-txts="options" v-if="true" @update-params="updateParams"></tab-txts>
+            <tab-txts ref="txtslide" :type-txts="options" v-if="true" @update-params="updateParams" />
             <div v-show="loaded">
-                <item-list :movies-data="moviesData"></item-list>
+                <item-list :movies-data="moviesData" />
             </div>
-            <div class="loading" v-show="!loaded">
-                <div>loading...</div>
-            </div>
+            <loading :loading="loaded" />
         </div>
-        <footer-Box :footer-cur="footerCur"></footer-box>
+        <footer-Box :footer-cur="footerCur" />
     </div>
 </template>
 <script>
@@ -18,6 +16,7 @@ import ItemList from './ItemList'
 import SearchInput from './SearchInput'
 import FooterBox from './FooterBox'
 import TabTxts from './TabTxts'
+import Loading from './Loading'
 
 export default {
     name: 'search',
@@ -36,7 +35,7 @@ export default {
                 params: {
                     count: 10
                 }
-            },{
+            }, {
                 cur: 1,
                 txt: '正在热映',
                 api: 'https://api.douban.com/v2/movie/in_theaters',
@@ -73,7 +72,8 @@ export default {
         ItemList,
         SearchInput,
         FooterBox,
-        TabTxts
+        TabTxts,
+        Loading
     },
     mounted() {
         this.fetchData();
@@ -130,8 +130,8 @@ export default {
             this.setSelected(0);
             this.searchParams = this.options[0];
         },
-        setSelected (index) {
-            this.options = this.options.map((item, i)=>{
+        setSelected(index) {
+            this.options = this.options.map((item, i) => {
                 if (index == i) {
                     item.cur = 1
                 } else {
@@ -140,12 +140,14 @@ export default {
                 return item;
             });
         },
-        getCurTxtIndex () {
+        getCurTxtIndex() {
             return this.$refs.txtslide.getCurTxtIndex()
         }
     }
 }
+
 </script>
 <style type="text/css">
+
 
 </style>

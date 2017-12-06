@@ -4,6 +4,9 @@ import Movie from '../components/Movie'
 import Detail from '../components/Detail'
 import Celebrity from '../components/Celebrity'
 import Admin from '../components/Admin'
+
+import Test from '../components/Test'
+
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 

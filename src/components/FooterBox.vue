@@ -28,7 +28,7 @@ export default {
                 name: 'Admin',
                 icon: [0, 0, 1],
                 cur: 0
-            }],
+            }]
         }
     },
     computed: {

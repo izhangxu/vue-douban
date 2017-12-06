@@ -4,7 +4,7 @@
             <div class="ty_head">
                 <image class="ty_img" src=""></image>
             </div>
-            <div class="ty_bac"></div>
+        <div class="ty_bac"></div>
         </div>
         <div class="ty_noOrder" v-if="!subject">
             <div class="y_i ty_icon_noOrder"></div>
@@ -26,9 +26,7 @@
                 </router-link>
             </template>
         </div>
-        <div class="wrap y_bg01">
-            <footer-Box :footer-cur="footerCur"></footer-box>
-        </div>
+        <footer-Box :footer-cur="footerCur" />
     </div>
 </template>
 <script type="text/javascript">
@@ -40,11 +38,11 @@ import FooterBox from './FooterBox'
 
 export default {
     data() {
-            return {
-                subject: null,
-                footerCur: '我的'
-            }
-        },
+        return {
+            subject: null,
+            footerCur: '我的'
+        }
+    },
         created() {
             this.getData()
         },

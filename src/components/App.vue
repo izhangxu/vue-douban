@@ -6,18 +6,16 @@
         <div class="y_inpuBox">
             <div class="y_searchBox">
                 <div class="y_search">
-                    <input class="y_inp" v-model="keyword"/>
+                    <input class="y_inp" v-model="keyword" />
                     <input type="button" value="查   找" class="y_btn" @click="goSearchPage">
                 </div>
             </div>
         </div>
         <div class="y_section">
-            <div class="y_tit">即将上映
-                <!-- <span class="y_more">更多</span> -->
-            </div>
-            <item-list :movies-data="moviesData"></item-list>
+            <div class="y_tit">即将上映</div>
+            <item-list :movies-data="moviesData" />
         </div>
-        <footer-Box :footer-cur="footerCur"></footer-box>
+        <footer-Box :footer-cur="footerCur" />
     </div>
 </template>
 <script>
@@ -76,10 +74,11 @@ export default {
         },
         goSearchPage() {
             let word = this.keyword
-            this.$router.push({path: 'movie', query: {word: word}});
+            this.$router.push({ path: 'movie', query: { word: word } });
         }
     }
 }
+
 </script>
 <style type="text/css">
 .y_bg01 {
@@ -87,6 +86,7 @@ export default {
     background-size: 100% auto;
     overflow: hidden
 }
+
 .y_txtBox {
     position: absolute;
     left: 40px;
@@ -176,4 +176,5 @@ export default {
 .y_btn:after {
     display: none;
 }
+
 </style>

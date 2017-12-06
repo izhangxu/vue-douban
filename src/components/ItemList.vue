@@ -20,6 +20,7 @@
 export default {
     props: ['moviesData']
 }
+
 </script>
 <style type="text/css">
 .y_list .row {
@@ -85,4 +86,5 @@ export default {
     text-align: center;
     color: #34495e;
 }
+
 </style>

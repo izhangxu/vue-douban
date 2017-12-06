@@ -18,5 +18,8 @@ export default {
     formatNumber (n) {
 	    n = n.toString();
 	    return n[1] ? n : '0' + n;
-	}
+	},
+    trim (str) {
+        return str.replace(/^\s*(.+[^\s])\s*$/, '$1');
+    }
 }
