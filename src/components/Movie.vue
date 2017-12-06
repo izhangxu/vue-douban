@@ -2,19 +2,19 @@
     <div class="wrap">
         <search-input ref="search-input" :show-picker="false" :search-params="searchParams" :default-value="defaultValue" @search-movies="searchMovies" />
         <div class="y_section" style="marginTop: 46px">
-            <tab-txts ref="txtslide" :type-txts="options" v-if="true" @update-params="updateParams" />
+            <tab-txts ref="txtslide" :type-txts="options" @update-params="updateParams" />
             <div v-show="!isLoading">
                 <item-list :movies-data="moviesData" />
             </div>
             <loading />
         </div>
-        <footer-Box />
+        <tab-bar />
     </div>
 </template>
 <script>
 import ItemList from './ItemList'
 import SearchInput from './SearchInput'
-import FooterBox from './FooterBox'
+import TabBar from './TabBar'
 import TabTxts from './TabTxts'
 import Loading from './Loading'
 import { mapGetters } from 'vuex'
@@ -67,7 +67,7 @@ export default {
     components: {
         ItemList,
         SearchInput,
-        FooterBox,
+        TabBar,
         TabTxts,
         Loading
     },

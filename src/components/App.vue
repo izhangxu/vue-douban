@@ -15,18 +15,18 @@
             <div class="y_tit">即将上映</div>
             <item-list :movies-data="moviesData" />
         </div>
-        <footer-Box />
+        <tab-bar />
     </div>
 </template>
 <script>
 import ItemList from './ItemList'
-import FooterBox from './FooterBox'
+import TabBar from './TabBar'
 
 export default {
     name: 'app',
     components: {
         ItemList,
-        FooterBox,
+        TabBar,
     },
     data() {
         return {

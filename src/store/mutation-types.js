@@ -1,2 +1,2 @@
-export const SELECT_TXTS = 'SELECT_TXTS'
+export const SELECT_TAB = 'SELECT_TAB'
 export const LOADING_STATUS = 'LOADING_STATUS'

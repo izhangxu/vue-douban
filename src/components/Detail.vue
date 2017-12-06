@@ -60,7 +60,7 @@
                 </div>
             </section>
         </div>
-        <loading :loading="loaded" />
+        <loading />
     </div>
 </template>
 <script type="text/javascript">
@@ -71,6 +71,9 @@ import _ from '../lib/util'
 import Loading from './Loading'
 
 export default {
+    components: {
+        Loading
+    },
     data() {
         return {
             id: this.$route.params.id,

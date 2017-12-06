@@ -1,6 +1,6 @@
 <template>
     <div class="y_toolbar">
-        <div class="y_row" v-for="(item, index) in txts" @click="selected(index)">
+        <div class="y_row" v-for="(item, index) in list" @click="selected(index)">
             <router-link :to="{ name: item.name, params: { id: item.id }}">
                 <i :class="[item.class, {on: item.cur}]"></i>
                 <div class="txt">{{item.txt}}</div>
@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters({
-            txts: 'txts'
+            list: 'list'
         })
     },
     methods: {

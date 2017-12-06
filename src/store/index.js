@@ -9,6 +9,7 @@ import footer from './modules/footer'
 Vue.use(Vuex);
 
 const state = {
+	tabBarIndex: 0,
 	isLoading: false
 };
 

@@ -6,10 +6,6 @@
             </div>
         <div class="ty_bac"></div>
         </div>
-        <div class="ty_noOrder" v-if="!subject">
-            <div class="y_i ty_icon_noOrder"></div>
-            <div class="ty_noOrder_text">没有收藏记录</div>
-        </div>
         <div class="ty_main_list" v-if="subject">
             <template v-for="item in subject">
                 <router-link :to="{ name: 'Detail', params: { id: item.id }}">
@@ -26,7 +22,10 @@
                 </router-link>
             </template>
         </div>
-        <footer-Box />
+        <div class="ty_noOrder" v-else>
+            <div class="ty_noOrder_text">没有收藏记录</div>
+        </div>
+        <tab-bar />
     </div>
 </template>
 <script type="text/javascript">
@@ -34,7 +33,7 @@ import {
     cookie
 } from 'cookie_js'
 import util from '../lib/util'
-import FooterBox from './FooterBox'
+import TabBar from './TabBar'
 
 export default {
     data() {
@@ -50,7 +49,7 @@ export default {
             '$route': 'getData'
         },
         components: {
-            FooterBox
+            TabBar
         },
         methods: {
             getData() {
