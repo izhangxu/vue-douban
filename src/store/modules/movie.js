@@ -3,18 +3,20 @@ import { data_movie_tabs } from '../../api/data';
 import movie from '../../api/movie'
 
 const state = {
-	defaultValue: '',
+	inputValue: '',
 	movieTabsData: data_movie_tabs,
 	movieTabsStyle: '',
 	moviesData: [],
 	tabIndex: 1,
 	showClear: false,
-	cacheTabIndex: 1
+	cacheTabIndex: 1,
+	clearInputValue: false
 };
 
 const getters = {
-	defaultValue: (state, gatters, rootState) => {
+	inputValue: (state, gatters, rootState) => {
 		const route = rootState.route;
+		if (state.clearInputValue) return '';
 		return route.query.word || '';
 	},
 	movieTabsData: state => state.movieTabsData,
@@ -56,9 +58,9 @@ const actions = {
 				typeof options.loadingStatus === 'boolean' && dispatch('loading', false);
 			})
 	},
-	clearMovies({commit}) {
+	clearMovies({dispatch, commit}) {
 		commit(types.TOGGLE_CLEAR, false)
-		commit(types.GET_MOVIES_REQUEST)
+		commit(types.CLEAR_INPUT)
 		dispatch('selectTab');
 	},
 	selectTab({ dispatch, commit }, index) {
@@ -74,6 +76,10 @@ const actions = {
 };
 
 const mutations = {
+	[types.CLEAR_INPUT] (state) {
+		state.clearInputValue = true;
+		state.moviesData = [];
+	},
 	[types.CACHE_MOVIE_TAB](state) {
 		state.cacheTabIndex = state.tabIndex;
 	},
