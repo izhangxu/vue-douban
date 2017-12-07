@@ -7,7 +7,9 @@ const state = {
 	movieTabsData: data_movie_tabs,
 	movieTabsStyle: '',
 	moviesData: [],
-	tabIndex: 1
+	tabIndex: 1,
+	showClear: false,
+	cacheTabIndex: null
 };
 
 const getters = {
@@ -23,13 +25,15 @@ const getters = {
 		return {
 			width: 100 / len + '%'
 		}
-	}
+	},
+	showClear: state => state.showClear
 };
 
 const actions = {
-	getMovies({ state, commit }) {
+	getMovies({ dispatch, commit }, options = {}) {
+		typeof options.loadingStatus === 'boolean' && dispatch('loading', true);
 		commit(types.GET_MOVIES_REQUEST);
-		movie.getMovies(state.tabIndex)
+		movie.getMovies(state.tabIndex, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
 					// console.log(data.subjects)
@@ -45,21 +49,41 @@ const actions = {
 				} else {
 					commit(types.GET_MOVIES_FAILURE);
 				}
+				typeof options.loadingStatus === 'boolean' && dispatch('loading', false);
 			})
 			.catch(e => {
 				commit(types.GET_MOVIES_FAILURE);
+				typeof options.loadingStatus === 'boolean' && dispatch('loading', false);
 			})
 	},
-	selectTab({ state, commit }, index) {
+	clearMovies({commit}) {
+		commit(types.TOGGLE_CLEAR, false)
+		commit(types.GET_MOVIES_REQUEST)
+		dispatch('selectTab');
+	},
+	selectTab({ dispatch, commit }, index) {
+		index = index || state.cacheTabIndex || 1;
 		commit(types.MOVIE_TAB, index)
+		dispatch('getMovies', true);
+	},
+	toggleClear({ commit }, status) {
+		commit(types.TOGGLE_CLEAR, status)
+	},
+	cacheTabIndex({commit}) {
+		commit(types.CACHE_MOVIE_TAB)
 	}
 };
 
 const mutations = {
+	[types.CACHE_MOVIE_TAB](state) {
+		state.cacheTabIndex = state.tabIndex;
+	},
+	[types.TOGGLE_CLEAR](state, status) {
+		state.showClear = status;
+	},
 	[types.MOVIE_TAB](state, index) {
-		state.tabIndex = index || 1;
 		state.movieTabsData.forEach((item, i) => {
-			item.cur = i == index ? true: false;
+			item.cur = i == index ? true : false;
 		})
 	},
 	[types.GET_MOVIES_REQUEST](state) {

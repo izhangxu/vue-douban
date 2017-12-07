@@ -37,10 +37,10 @@ const getApi = (index) => {
 };
 
 export default {
-	getMovies (tabIndex) {
+	getMovies (tabIndex, options) {
 		const api = getApi(tabIndex)
 		return axios.get(api.url, {
-			params: api.params
+			params: Object.assign({}, api.params, options)
 		}).then(res => {
 			return Promise.resolve(res.data);
 		}).catch(err => {

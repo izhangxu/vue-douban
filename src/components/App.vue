@@ -13,7 +13,7 @@
         </div>
         <div class="y_section">
             <div class="y_tit">即将上映</div>
-            <item-list :movies-data="moviesData" />
+            <item-list />
         </div>
         <tab-bar />
     </div>
@@ -30,48 +30,13 @@ export default {
     },
     data() {
         return {
-            footerCur: '首页',
-            api: {
-                api: 'https://api.douban.com/v2/movie/coming_soon',
-                params: {
-                    count: 10
-                }
-            },
-            moviesData: [],
             keyword: ''
         }
     },
-    mounted() {
-        this.fetchData();
+    beforeCreate () {
+        this.$store.dispatch('selectTab', 2);
     },
     methods: {
-        fetchData() {
-            let p = this.api;
-            this.$http({
-                    url: p.api,
-                    method: 'jsonp',
-                    params: p.params
-                })
-                .then(function(res) {
-                    let data = JSON.parse(res.bodyText);
-                    if (data.total > 0 || data.date) {
-                        // console.log(data.subjects)
-                        this.moviesData = data.subjects;
-                        this.moviesData = this.moviesData.map((item) => {
-                            if (item.casts.length) {
-                                item.newCasts = [];
-                                item.casts.forEach((k) => {
-                                    item.newCasts.push(k.name)
-                                })
-                                item.newCasts = item.newCasts.join('、')
-                                return item;
-                            } else {
-                                return item;
-                            }
-                        })
-                    }
-                })
-        },
         goSearchPage() {
             let word = this.keyword
             this.$router.push({ path: 'movie', query: { word: word } });

@@ -17,8 +17,16 @@
     </div>
 </template>
 <script type="text/javascript">
+import { mapGetters } from 'vuex'
 export default {
-    props: ['moviesData']
+    computed: {
+        ...mapGetters({
+            moviesData: 'moviesData'
+        })
+    },
+    mounted() {
+        this.$store.dispatch('getMovies')
+    }
 }
 
 </script>

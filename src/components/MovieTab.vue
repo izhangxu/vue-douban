@@ -18,31 +18,7 @@ export default {
     methods: {
         ...mapActions([
             'selectTab'
-        ]),
-        // 切换搜索条件（正在热映|即将上映|top250|北美票房榜）
-        updateParams(index) {
-            if (index == 0) {
-                return;
-            }
-            this.txts = this.txts.map((item, i) => {
-                if (i == index) {
-                    item.cur = 1;
-                } else {
-                    item.cur = 0;
-                }
-                return item;
-            })
-            this.$emit('update-params', this.txts);
-        },
-        getCurTxtIndex() {
-            let index;
-            this.txts.forEach((item, i)=>{
-                if (item.cur) {
-                    index = i;
-                }
-            })
-            return (index || 1)
-        }
+        ])
     }
 }
 </script>

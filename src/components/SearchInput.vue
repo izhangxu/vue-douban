@@ -1,79 +1,52 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: showClear} ,'y_inp']" @input="updateValue($event.target.value)" @focus="recordTxt"/>
-            <button class="y_subtn" @click="clearValue">清 空</button>
+            <input :class="[{on: showClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="recordTxt" />
+            <button class="y_subtn" @click="clearMovies">清 空</button>
         </div>
     </div>
 </template>
 <script type="text/javascript">
 import _ from 'lodash'
+import { mapGetters,mapActions } from 'vuex'
 
 export default {
-    props: ['showPicker', 'searchParams', 'defaultValue'],
-    data() {
-        return {
-            showClear: false,
-            value: this.defaultValue,
-            curTxtIndex: 1
-        }
+    computed: {
+        ...mapGetters({
+            value: 'defaultValue',
+            showClear: 'showClear'
+        })
     },
-    mounted() {
+    create() {
         if (this.value) {
-            this.showClear = true;
-            this.changeParams();
-            this.fetchData(this.defaultValue);
+            this.$store.dispatch('toggleClear', true);
+            this.$store.dispatch('selectTab', 0);
         }
     },
     methods: {
+        ...mapActions([
+            'clearMovies'
+        ]),
         // 记录原始选中的txt的index
-        recordTxt () {
-            this.curTxtIndex = this.$parent.getCurTxtIndex() || 1
+        recordTxt() {
+            this.$store.dispatch('cacheTabIndex');
         },
         // 搜索
-        updateValue (val) {
-            this.showClear = val ? true : false
-            this.changeParams()
+        updateValue(val) {
+            this.$store.dispatch('toggleClear', val === '' ? false : true);
             this.fetchData(val)
         },
         // 获取数据
         fetchData: _.debounce(function(val) {
-            let api = this.searchParams;
-            this.$http({
-                    url: api.api,
-                    method: 'jsonp',
-                    params: _.assign({
-                        q: val
-                    }, api.params)
-                })
-                .then(function(res) {
-                    let data = JSON.parse(res.bodyText);
-
-                    if (data.subjects) {
-                        // console.log(data.subjects)
-                        this.$parent.moviesData = data.subjects;
-                        this.$parent.loaded = true
-                        if (!data.subjects.length) {
-                            this.$parent.setSelected(this.curTxtIndex)
-                            this.$parent.updateParams()
-                        }
-                    }
-                })
-        }, 500),
-        // 更改搜索参数
-        changeParams() {
-            this.$emit('search-movies');
-        },
-        clearValue() {
-            this.value = ''
-            this.showClear = false
-            this.$parent.moviesData = []
-            this.$parent.setSelected(this.curTxtIndex)
-            this.$parent.updateParams()
-        }
+            this.$store.dispatch('getMovies', {
+                params: {
+                    q: val
+                }
+            });
+        }, 500)
     },
-
 }
+
 </script>
 <style type="text/css">
 .y_shBox {
@@ -133,4 +106,5 @@ export default {
     z-index: 999;
     position: relative;
 }
+
 </style>
