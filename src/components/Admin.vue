@@ -4,7 +4,7 @@
             <div class="ty_head">
                 <image class="ty_img" src=""></image>
             </div>
-        <div class="ty_bac"></div>
+            <div class="ty_bac"></div>
         </div>
         <div class="ty_main_list" v-if="subject">
             <template v-for="item in subject">
@@ -42,32 +42,33 @@ export default {
             footerCur: '我的'
         }
     },
-        created() {
-            this.getData()
-        },
-        watch: {
-            '$route': 'getData'
-        },
-        components: {
-            TabBar
-        },
-        methods: {
-            getData() {
-                let co = cookie.get('key').replace(/^_*/, '')
-                let arr = co.split('___')
-                arr = arr[0] ? arr.map((item) => {
-                    let newArr = item.split('|');
-                    return {
-                        id: newArr[0],
-                        title: newArr[1],
-                        date: util.formatTime(newArr[2])
-                    }
+    created() {
+        this.getData()
+    },
+    watch: {
+        '$route': 'getData'
+    },
+    components: {
+        TabBar
+    },
+    methods: {
+        getData() {
+            let co = cookie.get('key').replace(/^_*/, '')
+            let arr = co.split('___')
+            arr = arr[0] ? arr.map((item) => {
+                let newArr = item.split('|');
+                return {
+                    id: newArr[0],
+                    title: newArr[1],
+                    date: util.formatTime(newArr[2])
+                }
 
-                }) : null
-                this.subject = arr
-            }
+            }) : null
+            this.subject = arr
         }
+    }
 }
+
 </script>
 <style type="text/css">
 .clearfix:after {
@@ -198,4 +199,5 @@ export default {
     box-shadow: 0 3px 6px rgba(254, 176, 75, .12);
     margin-top: 38px;
 }
+
 </style>

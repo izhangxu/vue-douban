@@ -1,27 +1,24 @@
 <template>
     <div class="txt-slide-wrap">
         <ul>
-            <li :class="{on: item.cur }" :style="stylesObject" v-for="(item, index) in txts" @click="updateParams(index)">{{item.txt}}</li>
+            <li :class="{on: item.cur }" :style="movieTabsStyle" v-for="(item, index) in movieTabsData" @click="selectTab(index)">{{item.txt}}</li>
         </ul>
     </div>
 </template>
 <script type="text/javascript">
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-    props: ['typeTxts'],
-    data() {
-        return {
-            txts: this.typeTxts
-        }
-    },
     computed: {
-        stylesObject() {
-            let len = this.typeTxts.length;
-            return {
-                width: 100 / len + '%'
-            }
-        }
+        ...mapGetters([
+            'movieTabsData',
+            'movieTabsStyle'
+        ])
     },
     methods: {
+        ...mapActions([
+            'selectTab'
+        ]),
         // 切换搜索条件（正在热映|即将上映|top250|北美票房榜）
         updateParams(index) {
             if (index == 0) {

@@ -4,7 +4,11 @@
 import Vue from 'vue'
 import router from './router'
 import store from './store'
+import { sync } from 'vuex-router-sync'
 import './css/app.css'
+
+
+const unsync = sync(store, router)
 
 Vue.config.productionTip = false
 

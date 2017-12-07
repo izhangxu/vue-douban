@@ -4,7 +4,8 @@ import createLogger from 'vuex/dist/logger'
 import * as actions from './actions'
 import * as getters from './getters'
 import mutations from './mutations'
-import footer from './modules/footer'
+import tabBar from './modules/tabBar'
+import movie from './modules/movie'
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default new Vuex.Store({
 	getters,
 	mutations,
 	modules: {
-		footer
+		movie,
+		tabBar
 	},
 	plugins: [createLogger()]
 });

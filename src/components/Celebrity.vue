@@ -39,10 +39,10 @@
 </template>
 <script type="text/javascript">
 import Vue from 'vue'
-import VueResource from 'vue-resource'
+// import VueResource from 'vue-resource'
 import Loading from './Loading'
 
-Vue.use(VueResource)
+// Vue.use(VueResource)
 export default {
     data() {
         return {
