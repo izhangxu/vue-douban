@@ -10,7 +10,6 @@ import movie from './modules/movie'
 Vue.use(Vuex);
 
 const state = {
-	tabBarIndex: 0,
 	isLoading: false
 };
 

@@ -9,7 +9,7 @@ const state = {
 	moviesData: [],
 	tabIndex: 1,
 	showClear: false,
-	cacheTabIndex: null
+	cacheTabIndex: 1
 };
 
 const getters = {
@@ -64,7 +64,9 @@ const actions = {
 	selectTab({ dispatch, commit }, index) {
 		index = index || state.cacheTabIndex || 1;
 		commit(types.MOVIE_TAB, index)
-		dispatch('getMovies', true);
+		// dispatch('getMovies', {
+		// 	loadingStatus: true
+		// });
 	},
 	toggleClear({ commit }, status) {
 		commit(types.TOGGLE_CLEAR, status)

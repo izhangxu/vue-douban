@@ -1,5 +1,5 @@
 <template>
-    <div class="y_list">
+    <div class="y_list" data-tab="tabIndex">
         <div class="row" v-for="item in moviesData">
             <router-link :to="{ name: 'Detail', params: { id: item.id }}">
                 <div class="y_img">
@@ -21,11 +21,17 @@ import { mapGetters } from 'vuex'
 export default {
     computed: {
         ...mapGetters({
-            moviesData: 'moviesData'
+            moviesData: 'moviesData',
+            tabIndex:'tabIndex'
         })
     },
     mounted() {
         this.$store.dispatch('getMovies')
+    },
+    watch: {
+        tabIndex: function() {
+            this.$store.dispatch('getMovies')      
+        }
     }
 }
 

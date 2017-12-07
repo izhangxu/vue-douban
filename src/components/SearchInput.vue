@@ -1,14 +1,14 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: showClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="recordTxt" />
+            <input :class="[{on: showClear} ,'y_inp']" @input="updateValue($event.target.value)" @focus="recordTxt" />
             <button class="y_subtn" @click="clearMovies">清 空</button>
         </div>
     </div>
 </template>
 <script type="text/javascript">
 import _ from 'lodash'
-import { mapGetters,mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     computed: {
@@ -17,10 +17,10 @@ export default {
             showClear: 'showClear'
         })
     },
-    create() {
+    created  () {
         if (this.value) {
+            this.$store.dispatch('selectTab', '0');
             this.$store.dispatch('toggleClear', true);
-            this.$store.dispatch('selectTab', 0);
         }
     },
     methods: {
@@ -31,11 +31,6 @@ export default {
         recordTxt() {
             this.$store.dispatch('cacheTabIndex');
         },
-        // 搜索
-        updateValue(val) {
-            this.$store.dispatch('toggleClear', val === '' ? false : true);
-            this.fetchData(val)
-        },
         // 获取数据
         fetchData: _.debounce(function(val) {
             this.$store.dispatch('getMovies', {
@@ -43,8 +38,12 @@ export default {
                     q: val
                 }
             });
-        }, 500)
-    },
+        }, 500),
+        updateValue: function(val) {
+            this.$store.dispatch('toggleClear', val === '' ? false : true);
+            val !== '' && this.fetchData(val)
+        }
+    }
 }
 
 </script>
