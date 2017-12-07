@@ -13,7 +13,7 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
         ...mapGetters({
-            value: 'defaultValue',
+            value: 'inputValue',
             showClear: 'showClear'
         })
     },

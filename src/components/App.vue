@@ -13,19 +13,19 @@
         </div>
         <div class="y_section">
             <div class="y_tit">即将上映</div>
-            <item-list />
+            <movie-list />
         </div>
         <tab-bar />
     </div>
 </template>
 <script>
-import ItemList from './ItemList'
+import MovieList from './MovieList'
 import TabBar from './TabBar'
 
 export default {
     name: 'app',
     components: {
-        ItemList,
+        MovieList,
         TabBar,
     },
     data() {

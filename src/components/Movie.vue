@@ -4,7 +4,7 @@
         <div class="y_section" style="marginTop: 46px">
             <movie-tab />
             <div v-show="!isLoading">
-                <item-list />
+                <movie-list />
             </div>
             <loading />
         </div>
@@ -12,7 +12,7 @@
     </div>
 </template>
 <script>
-import ItemList from './ItemList'
+import MovieList from './MovieList'
 import SearchInput from './SearchInput'
 import TabBar from './TabBar'
 import MovieTab from './MovieTab'
@@ -22,7 +22,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'movie',
     components: {
-        ItemList,
+        MovieList,
         SearchInput,
         TabBar,
         MovieTab,

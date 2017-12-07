@@ -4,13 +4,13 @@ import movie from '../../api/movie'
 
 const state = {
 	inputValue: '',
-	movieTabsData: data_movie_tabs,
-	movieTabsStyle: '',
-	moviesData: [],
-	tabIndex: 1,
 	showClear: false,
 	cacheTabIndex: 1,
-	clearInputValue: false
+	clearInputValue: false,
+	movieTabsData: data_movie_tabs,
+	movieTabsStyle: '',
+	tabIndex: 1,
+	moviesData: [],
 };
 
 const getters = {
@@ -58,7 +58,7 @@ const actions = {
 				typeof options.loadingStatus === 'boolean' && dispatch('loading', false);
 			})
 	},
-	clearMovies({dispatch, commit}) {
+	clearMovies({ dispatch, commit }) {
 		commit(types.TOGGLE_CLEAR, false)
 		commit(types.CLEAR_INPUT)
 		dispatch('selectTab');
@@ -70,18 +70,18 @@ const actions = {
 	toggleClear({ commit }, status) {
 		commit(types.TOGGLE_CLEAR, status)
 	},
-	cacheTabIndex({commit}) {
+	cacheTabIndex({ commit }) {
 		commit(types.CACHE_MOVIE_TAB)
 	}
 };
 
 const mutations = {
-	[types.CLEAR_INPUT] (state) {
+	[types.CLEAR_INPUT](state) {
 		state.clearInputValue = true;
 		state.moviesData = [];
 	},
 	[types.CACHE_MOVIE_TAB](state) {
-		state.cacheTabIndex = state.tabIndex;
+		state.cacheTabIndex = state.tabIndex == '0' ? 1 : state.tabIndex
 	},
 	[types.TOGGLE_CLEAR](state, status) {
 		state.showClear = status;
