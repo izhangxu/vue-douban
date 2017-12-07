@@ -64,9 +64,6 @@ const actions = {
 	selectTab({ dispatch, commit }, index) {
 		index = index || state.cacheTabIndex || 1;
 		commit(types.MOVIE_TAB, index)
-		// dispatch('getMovies', {
-		// 	loadingStatus: true
-		// });
 	},
 	toggleClear({ commit }, status) {
 		commit(types.TOGGLE_CLEAR, status)
@@ -84,6 +81,7 @@ const mutations = {
 		state.showClear = status;
 	},
 	[types.MOVIE_TAB](state, index) {
+		state.tabIndex = index;
 		state.movieTabsData.forEach((item, i) => {
 			item.cur = i == index ? true : false;
 		})

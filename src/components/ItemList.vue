@@ -29,8 +29,8 @@ export default {
         this.$store.dispatch('getMovies')
     },
     watch: {
-        tabIndex: function() {
-            this.$store.dispatch('getMovies')      
+        tabIndex: function(val) {
+            val!=='' && this.$store.dispatch('getMovies')      
         }
     }
 }

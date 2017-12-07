@@ -1,7 +1,7 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: showClear} ,'y_inp']" @input="updateValue($event.target.value)" @focus="recordTxt" />
+            <input :class="[{on: showClear} ,'y_inp']" :value="value" @input="updateValue($event.target.value)" @focus="recordTxt" />
             <button class="y_subtn" @click="clearMovies">清 空</button>
         </div>
     </div>
@@ -21,6 +21,7 @@ export default {
         if (this.value) {
             this.$store.dispatch('selectTab', '0');
             this.$store.dispatch('toggleClear', true);
+            this.fetchData(this.value)
         }
     },
     methods: {
@@ -40,8 +41,14 @@ export default {
             });
         }, 500),
         updateValue: function(val) {
-            this.$store.dispatch('toggleClear', val === '' ? false : true);
-            val !== '' && this.fetchData(val)
+            if (val !== '' ){
+                this.$store.dispatch('toggleClear', true)
+                this.$store.dispatch('selectTab', '0');
+                this.fetchData(val)
+            } else {
+                this.$store.dispatch('toggleClear', false)
+                this.$store.dispatch('selectTab');
+            }
         }
     }
 }
