@@ -20,29 +20,32 @@ export default {
     created() {
         if (this.value) {
             this.$store.dispatch('toggleClear', true);
-            this.$store.dispatch('getMovies', {
-                params: {
-                    q: this.value
-                }
-            });
+            this.fetchMovies(this.value)
         }
     },
     methods: {
-        ...mapActions([
-            'clearMovies'
-        ]),
+        recoverState() {
+            this.$store.dispatch('clearMovies');
+            this.$store.dispatch('getMovies')
+        },
+        clearMovies() {
+            this.recoverState()
+        },
         // 记录原始选中的txt的index
         recordTxt() {
             this.$store.dispatch('cacheTabIndex');
             this.$store.dispatch('switchSearchApi', 0);
         },
-        // 获取数据
-        fetchData: _.debounce(function(val) {
+        fetchMovies (val) {
             this.$store.dispatch('getMovies', {
                 params: {
                     q: val
                 }
             });
+        },
+        // 获取数据
+        fetchData: _.debounce(function(val) {
+            this.fetchMovies(val)
         }, 500),
         updateValue: function(val) {
             if (val !== '') {
@@ -50,7 +53,7 @@ export default {
                 this.$store.dispatch('toggleClear', true)
                 this.fetchData(val)
             } else {
-                this.$store.dispatch('clearMovies');
+                this.recoverState()
             }
         }
     }

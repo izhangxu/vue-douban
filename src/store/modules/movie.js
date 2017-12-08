@@ -45,7 +45,7 @@ const actions = {
 		commit(types.RECOVER_MOVIE_TAB)
 	},
 	// 获取movies
-	getMovies({ dispatch, commit, rootState}, options = {}) {
+	getMovies({ dispatch, commit, rootState }, options = {}) {
 		options.loadingStatus === true && dispatch('loading', true);
 		commit(types.GET_MOVIES_REQUEST);
 		movie.getMovies(rootState.movieSearchApi, options.params)
@@ -72,13 +72,13 @@ const actions = {
 			})
 	},
 	// 清除input
-	clearMovies({ state, commit, rootState, rootGetters }) {
+	clearMovies({ dispatch, commit, rootState, rootGetters }) {
 		commit(types.TOGGLE_CLEAR, false)
 		commit(types.RECOVER_MOVIE_TAB)
-		commit(types.SWITCH_SEARCH_API, state.movieTabIndex , {root: true})
+		dispatch('switchSearchApi', state.movieTabIndex);
 	},
 	// 切换删除按钮
-	toggleClear({ dispatch, commit }, status) {
+	toggleClear({commit }, status) {
 		commit(types.TOGGLE_CLEAR, status)
 	}
 };
