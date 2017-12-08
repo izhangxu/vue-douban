@@ -1,7 +1,7 @@
 <template>
     <div class="txt-slide-wrap">
         <ul>
-            <li :class="{on: item.cur }" :style="movieTabsStyle" v-for="(item, index) in movieTabsData" @click="selectTab(index)">{{item.txt}}</li>
+            <li :class="{on: item.cur }" :style="movieTabStyle" v-for="(item, index) in movieTabData" @click="selectTab(index)">{{item.txt}}</li>
         </ul>
     </div>
 </template>
@@ -11,14 +11,19 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
         ...mapGetters([
-            'movieTabsData',
-            'movieTabsStyle'
+            'movieTabData',
+            'movieTabStyle'
         ])
     },
     methods: {
-        ...mapActions([
-            'selectTab'
-        ])
+        selectTab (index) {
+            if (index) {
+                this.$store.dispatch('switchTabIndex', index);
+                this.$store.dispatch('getMovies', {
+                    loadingStatus: true
+                });
+            }
+        }
     }
 }
 </script>

@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         selected(index) {
-            this.$store.dispatch('selected', index)
+            this.$store.dispatch('selectTabBar', index)
         }
     }
 }

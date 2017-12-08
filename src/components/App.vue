@@ -6,7 +6,7 @@
         <div class="y_inpuBox">
             <div class="y_searchBox">
                 <div class="y_search">
-                    <input class="y_inp" v-model="keyword" />
+                    <input class="y_inp" ref="indexInput" />
                     <input type="button" value="查   找" class="y_btn" @click="goSearchPage">
                 </div>
             </div>
@@ -28,18 +28,11 @@ export default {
         MovieList,
         TabBar,
     },
-    data() {
-        return {
-            keyword: ''
-        }
-    },
-    beforeCreate () {
-        this.$store.dispatch('selectTab', 2);
-    },
     methods: {
         goSearchPage() {
-            let word = this.keyword
-            this.$router.push({ path: 'movie', query: { word: word } });
+            this.$router.push({ path: 'movie'});
+            this.$store.dispatch('storageInputValue', this.$refs.indexInput.value)
+            this.$store.dispatch('selectTabBar', 1);
         }
     }
 }

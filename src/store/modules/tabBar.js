@@ -16,15 +16,15 @@ const getters = {
 };
 // select
 const actions = {
-	selected(cxt, index) {
-		cxt.commit(types.SELECT_TAB, {
+	selectTabBar(cxt, index) {
+		cxt.commit(types.SELECT_TAB_BAR, {
 			index
 		});
 	}
 };
 
 const mutations = {
-	[types.SELECT_TAB](state, opt) {
+	[types.SELECT_TAB_BAR](state, opt) {
 		state.list.forEach((item, i) => {
 			item.cur = i == opt.index ? true: false;
 		})

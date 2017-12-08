@@ -2,40 +2,61 @@ import * as types from '../mutation-types'
 import { data_movie_tabs } from '../../api/data';
 import movie from '../../api/movie'
 
+
 const state = {
-	inputValue: '',
+	movieListData: [],
+	movieTabIndex: 1,
+	movieTabData: data_movie_tabs,
+	movieTabStyle: '',
+	cacheMovieTabIndex: 1,
 	showClear: false,
-	cacheTabIndex: 1,
-	clearInputValue: false,
-	movieTabsData: data_movie_tabs,
-	movieTabsStyle: '',
-	tabIndex: 1,
-	moviesData: [],
+	clearInputValue: false
 };
 
 const getters = {
 	inputValue: (state, gatters, rootState) => {
-		const route = rootState.route;
-		if (state.clearInputValue) return '';
-		return route.query.word || '';
+		const rootValue = rootState.inputValue;
+		return rootValue || '';
 	},
-	movieTabsData: state => state.movieTabsData,
-	moviesData: state => state.moviesData,
-	tabIndex: state => state.tabIndex,
-	movieTabsStyle: state => {
-		let len = state.movieTabsData.length;
+	showClear: state => state.showClear,
+	// 下拉列表
+	movieListData: state => state.movieListData,
+	// tab
+	movieTabData: state => {
+		state.movieTabData.forEach((item, i) => {
+			item.cur = i == state.movieTabIndex ? true : false;
+		})
+		return state.movieTabData
+	},
+	// 当前tabindex
+	// movieTabIndex: state => state.movieTabIndex,
+	// 
+	cacheMovieTabIndex: state => state.cacheMovieTabIndex,
+	movieTabStyle: state => {
+		let len = state.movieTabData.length;
 		return {
 			width: 100 / len + '%'
 		}
-	},
-	showClear: state => state.showClear
+	}
 };
 
 const actions = {
+	// 切换tab
+	switchTabIndex({ dispatch, commit }, index) {
+		commit(types.SWITCH_MOVIE_TAB, index)
+	},
+	// 缓存tabIndex
+	cacheTabIndex({ commit }) {
+		commit(types.CACHE_MOVIE_TAB)
+	},
+	recoverTabIndex({ commit }) {
+		commit(types.RECOVER_MOVIE_TAB)
+	},
+	// 获取movies
 	getMovies({ dispatch, commit }, options = {}) {
-		typeof options.loadingStatus === 'boolean' && dispatch('loading', true);
+		options.loadingStatus === true && dispatch('loading', true);
 		commit(types.GET_MOVIES_REQUEST);
-		movie.getMovies(state.tabIndex, options.params)
+		movie.getMovies(state.movieTabIndex, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
 					// console.log(data.subjects)
@@ -51,55 +72,50 @@ const actions = {
 				} else {
 					commit(types.GET_MOVIES_FAILURE);
 				}
-				typeof options.loadingStatus === 'boolean' && dispatch('loading', false);
+				options.loadingStatus === true && dispatch('loading', false);
 			})
 			.catch(e => {
 				commit(types.GET_MOVIES_FAILURE);
-				typeof options.loadingStatus === 'boolean' && dispatch('loading', false);
+				options.loadingStatus === true && dispatch('loading', false);
 			})
 	},
-	clearMovies({ dispatch, commit }) {
+	// 清除input
+	clearMovies({ dispatch, commit, rootGetters }) {
 		commit(types.TOGGLE_CLEAR, false)
-		commit(types.CLEAR_INPUT)
-		dispatch('selectTab');
+		commit(types.RECOVER_MOVIE_TAB)
+		dispatch('clearInputValue', null, { root: true })
 	},
-	selectTab({ dispatch, commit }, index) {
-		index = index || state.cacheTabIndex || 1;
-		commit(types.MOVIE_TAB, index)
-	},
-	toggleClear({ commit }, status) {
+	// 切换删除按钮
+	toggleClear({ dispatch, commit }, status) {
 		commit(types.TOGGLE_CLEAR, status)
 	},
-	cacheTabIndex({ commit }) {
-		commit(types.CACHE_MOVIE_TAB)
-	}
 };
 
 const mutations = {
+	[types.GET_MOVIES_REQUEST](state) {
+		state.movieListData = [];
+	},
+	[types.GET_MOVIES_SUCCESS](state, data) {
+		state.movieListData = data;
+	},
+	[types.GET_MOVIES_FAILURE](state) {
+		state.movieListData = [];
+	},
 	[types.CLEAR_INPUT](state) {
 		state.clearInputValue = true;
-		state.moviesData = [];
-	},
-	[types.CACHE_MOVIE_TAB](state) {
-		state.cacheTabIndex = state.tabIndex == '0' ? 1 : state.tabIndex
 	},
 	[types.TOGGLE_CLEAR](state, status) {
 		state.showClear = status;
 	},
-	[types.MOVIE_TAB](state, index) {
-		state.tabIndex = index;
-		state.movieTabsData.forEach((item, i) => {
-			item.cur = i == index ? true : false;
-		})
+	[types.SWITCH_MOVIE_TAB](state, index) {
+		state.movieTabIndex = index;
 	},
-	[types.GET_MOVIES_REQUEST](state) {
-		state.moviesData = [];
+	[types.CACHE_MOVIE_TAB](state) {
+		state.cacheMovieTabIndex = state.movieTabIndex;
 	},
-	[types.GET_MOVIES_SUCCESS](state, data) {
-		state.moviesData = data;
-	},
-	[types.GET_MOVIES_FAILURE](state) {
-		state.moviesData = [];
+	[types.RECOVER_MOVIE_TAB](state) {
+		state.movieTabIndex = state.cacheMovieTabIndex;
+		state.cacheMovieTabIndex = ''
 	}
 };
 

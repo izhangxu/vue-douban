@@ -10,7 +10,8 @@ import movie from './modules/movie'
 Vue.use(Vuex);
 
 const state = {
-	isLoading: false
+	isLoading: false,
+	inputValue: ''
 };
 
 export default new Vuex.Store({

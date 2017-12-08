@@ -29,13 +29,11 @@ export default {
         Loading
     },
     beforeCreate: function(){
-        this.$store.dispatch('selectTab' ,1);
+        this.$store.dispatch('switchTabIndex' ,1);
     },
     computed: {
         ...mapGetters({
-            isLoading: 'isLoading',
-            defaultValue: 'defaultValue',
-            movieTabsData: 'movieTabsData'
+            isLoading: 'isLoading'
         })
     }
 }
