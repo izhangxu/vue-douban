@@ -28,18 +28,23 @@ export default {
         MovieTab,
         Loading
     },
-    beforeCreate: function(){
-        this.$store.dispatch('switchTabIndex' ,1);
-    },
     computed: {
-        ...mapGetters({
-            isLoading: 'isLoading'
-        })
+        ...mapGetters([
+            'inputValue',
+            'isLoading'
+        ])
+    },
+    created: function() {
+        this.$store.dispatch('selectTabBar', 1);
+        if (this.inputValue == '') {
+            this.$store.dispatch('switchSearchApi', 1);
+            this.$store.dispatch('switchTabIndex', 1);
+            this.$store.dispatch('getMovies')
+        } else {
+            this.$store.dispatch('switchSearchApi', 0);
+            this.$store.dispatch('switchTabIndex', 0);
+        }
     }
 }
 
 </script>
-<style type="text/css">
-
-
-</style>

@@ -1,4 +1,5 @@
 import * as types from './mutation-types'
+import { ajaxApi } from '../api/data';
 
 export default {
 	[types.LOADING_STATUS] (state, opt) {
@@ -9,5 +10,8 @@ export default {
 	},
 	[types.CLEAR_INPUT_VALUE] (state) {
 		state.inputValue = '';
+	},
+	[types.SWITCH_SEARCH_API](state, index) {
+		state.movieSearchApi = ajaxApi[index];
 	}
 }

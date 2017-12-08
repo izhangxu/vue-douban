@@ -28,11 +28,14 @@ export default {
         MovieList,
         TabBar,
     },
+    created () {
+        this.$store.dispatch('switchSearchApi', 2);
+        this.$store.dispatch('getMovies')
+    },
     methods: {
         goSearchPage() {
             this.$router.push({ path: 'movie'});
             this.$store.dispatch('storageInputValue', this.$refs.indexInput.value)
-            this.$store.dispatch('selectTabBar', 1);
         }
     }
 }

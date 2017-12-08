@@ -16,8 +16,8 @@ const getters = {
 };
 // select
 const actions = {
-	selectTabBar(cxt, index) {
-		cxt.commit(types.SELECT_TAB_BAR, {
+	selectTabBar({dispatch, commit}, index) {
+		commit(types.SELECT_TAB_BAR, {
 			index
 		});
 	}

@@ -11,7 +11,9 @@ Vue.use(Vuex);
 
 const state = {
 	isLoading: false,
-	inputValue: ''
+	inputValue: '',
+	tabBarIndex: 0,
+	movieSearchApi: {},
 };
 
 export default new Vuex.Store({

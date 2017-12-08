@@ -1,7 +1,6 @@
 import * as types from '../mutation-types'
-import { data_movie_tabs } from '../../api/data';
+import { data_movie_tabs, ajaxApi } from '../../api/data';
 import movie from '../../api/movie'
-
 
 const state = {
 	movieListData: [],
@@ -14,10 +13,6 @@ const state = {
 };
 
 const getters = {
-	inputValue: (state, gatters, rootState) => {
-		const rootValue = rootState.inputValue;
-		return rootValue || '';
-	},
 	showClear: state => state.showClear,
 	// 下拉列表
 	movieListData: state => state.movieListData,
@@ -28,9 +23,6 @@ const getters = {
 		})
 		return state.movieTabData
 	},
-	// 当前tabindex
-	// movieTabIndex: state => state.movieTabIndex,
-	// 
 	cacheMovieTabIndex: state => state.cacheMovieTabIndex,
 	movieTabStyle: state => {
 		let len = state.movieTabData.length;
@@ -53,10 +45,10 @@ const actions = {
 		commit(types.RECOVER_MOVIE_TAB)
 	},
 	// 获取movies
-	getMovies({ dispatch, commit }, options = {}) {
+	getMovies({ dispatch, commit, rootState}, options = {}) {
 		options.loadingStatus === true && dispatch('loading', true);
 		commit(types.GET_MOVIES_REQUEST);
-		movie.getMovies(state.movieTabIndex, options.params)
+		movie.getMovies(rootState.movieSearchApi, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
 					// console.log(data.subjects)
@@ -80,15 +72,15 @@ const actions = {
 			})
 	},
 	// 清除input
-	clearMovies({ dispatch, commit, rootGetters }) {
+	clearMovies({ state, commit, rootState, rootGetters }) {
 		commit(types.TOGGLE_CLEAR, false)
 		commit(types.RECOVER_MOVIE_TAB)
-		dispatch('clearInputValue', null, { root: true })
+		commit(types.SWITCH_SEARCH_API, state.movieTabIndex , {root: true})
 	},
 	// 切换删除按钮
 	toggleClear({ dispatch, commit }, status) {
 		commit(types.TOGGLE_CLEAR, status)
-	},
+	}
 };
 
 const mutations = {
@@ -108,10 +100,11 @@ const mutations = {
 		state.showClear = status;
 	},
 	[types.SWITCH_MOVIE_TAB](state, index) {
-		state.movieTabIndex = index;
+		state.movieTabIndex = index
 	},
 	[types.CACHE_MOVIE_TAB](state) {
-		state.cacheMovieTabIndex = state.movieTabIndex;
+		const index = state.movieTabIndex == 0 ? 1 : state.movieTabIndex;
+		state.cacheMovieTabIndex = index
 	},
 	[types.RECOVER_MOVIE_TAB](state) {
 		state.movieTabIndex = state.cacheMovieTabIndex;

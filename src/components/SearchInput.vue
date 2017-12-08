@@ -17,11 +17,14 @@ export default {
             showClear: 'showClear'
         })
     },
-    created  () {
+    created() {
         if (this.value) {
             this.$store.dispatch('toggleClear', true);
-            this.$store.dispatch('switchTabIndex', 0);
-            this.fetchData(this.value)
+            this.$store.dispatch('getMovies', {
+                params: {
+                    q: this.value
+                }
+            });
         }
     },
     methods: {
@@ -31,6 +34,7 @@ export default {
         // 记录原始选中的txt的index
         recordTxt() {
             this.$store.dispatch('cacheTabIndex');
+            this.$store.dispatch('switchSearchApi', 0);
         },
         // 获取数据
         fetchData: _.debounce(function(val) {
@@ -41,9 +45,9 @@ export default {
             });
         }, 500),
         updateValue: function(val) {
-            if (val !== '' ){
-                this.$store.dispatch('toggleClear', true)
+            if (val !== '') {
                 this.$store.dispatch('switchTabIndex', 0);
+                this.$store.dispatch('toggleClear', true)
                 this.fetchData(val)
             } else {
                 this.$store.dispatch('clearMovies');
