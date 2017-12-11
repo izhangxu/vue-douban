@@ -19,8 +19,8 @@
     </div>
 </template>
 <script>
-import MovieList from './MovieList'
-import TabBar from './TabBar'
+import MovieList from './components/MovieList'
+import TabBar from './components/TabBar'
 
 export default {
     name: 'app',

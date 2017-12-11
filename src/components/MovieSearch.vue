@@ -27,6 +27,7 @@ export default {
         recoverState() {
             this.$store.dispatch('clearMovies');
             this.$store.dispatch('getMovies')
+            this.value = ''
         },
         clearMovies() {
             this.recoverState()
@@ -48,6 +49,7 @@ export default {
             this.fetchMovies(val)
         }, 500),
         updateValue: function(val) {
+            console.log(val)
             if (val !== '') {
                 this.$store.dispatch('switchTabIndex', 0);
                 this.$store.dispatch('toggleClear', true)

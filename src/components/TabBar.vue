@@ -1,6 +1,6 @@
 <template>
     <div class="y_toolbar">
-        <div class="y_row" v-for="(item, index) in list" @click="selected(index)">
+        <div class="y_row" v-for="(item, index) in list" >
             <router-link :to="{ name: item.name, params: { id: item.id }}">
                 <i :class="[item.class, {on: item.cur}]"></i>
                 <div class="txt">{{item.txt}}</div>
@@ -16,10 +16,8 @@ export default {
             list: 'list'
         })
     },
-    methods: {
-        selected(index) {
-            this.$store.dispatch('selectTabBar', index)
-        }
+    created () {
+        this.$store.dispatch('initTabBar')
     }
 }
 

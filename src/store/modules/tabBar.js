@@ -7,26 +7,19 @@ const state = {
 };
 // update
 const getters = {
-	list: (state, gatters, rootState) => {
-		return state.list.map((item, i) => {
-			item.cur = getPath(item.name.toLowerCase());
-			return item;
-		})
-	}
+	list: state => state.list
 };
 // select
 const actions = {
-	selectTabBar({dispatch, commit}, index) {
-		commit(types.SELECT_TAB_BAR, {
-			index
-		});
+	initTabBar({commit}){
+		commit(types.INIT_TAB_BAR);
 	}
 };
 
 const mutations = {
-	[types.SELECT_TAB_BAR](state, opt) {
+	[types.INIT_TAB_BAR] (state) {
 		state.list.forEach((item, i) => {
-			item.cur = i == opt.index ? true: false;
+			item.cur = getPath(item.name.toLowerCase());
 		})
 	}
 };

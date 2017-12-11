@@ -1,6 +1,6 @@
 <template>
     <div class="wrap">
-        <search-input />
+        <movie-search />
         <div class="y_section" style="marginTop: 46px">
             <movie-tab />
             <div v-show="!isLoading">
@@ -13,7 +13,7 @@
 </template>
 <script>
 import MovieList from './MovieList'
-import SearchInput from './SearchInput'
+import MovieSearch from './MovieSearch'
 import TabBar from './TabBar'
 import MovieTab from './MovieTab'
 import Loading from './Loading'
@@ -22,10 +22,10 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'movie',
     components: {
-        MovieList,
-        SearchInput,
-        TabBar,
+        MovieSearch,
         MovieTab,
+        MovieList,
+        TabBar,
         Loading
     },
     computed: {
@@ -35,15 +35,10 @@ export default {
         ])
     },
     created: function() {
-        this.$store.dispatch('selectTabBar', 1);
-        if (this.inputValue == '') {
-            this.$store.dispatch('switchSearchApi', 1);
-            this.$store.dispatch('switchTabIndex', 1);
-            this.$store.dispatch('getMovies')
-        } else {
-            this.$store.dispatch('switchSearchApi', 0);
-            this.$store.dispatch('switchTabIndex', 0);
-        }
+        const inpVal = this.inputValue == '' ? true : false
+        this.$store.dispatch('switchSearchApi', inpVal ? 1 : 0);
+        this.$store.dispatch('switchTabIndex', inpVal ? 1 : 0);
+        inpVal && this.$store.dispatch('getMovies')
     }
 }
 

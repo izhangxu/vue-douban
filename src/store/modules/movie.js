@@ -8,8 +8,7 @@ const state = {
 	movieTabData: data_movie_tabs,
 	movieTabStyle: '',
 	cacheMovieTabIndex: 1,
-	showClear: false,
-	clearInputValue: false
+	showClear: false
 };
 
 const getters = {
@@ -72,7 +71,7 @@ const actions = {
 			})
 	},
 	// 清除input
-	clearMovies({ dispatch, commit, rootState, rootGetters }) {
+	clearMovies({ dispatch, commit, rootState }) {
 		commit(types.TOGGLE_CLEAR, false)
 		commit(types.RECOVER_MOVIE_TAB)
 		dispatch('switchSearchApi', state.movieTabIndex);
@@ -92,9 +91,6 @@ const mutations = {
 	},
 	[types.GET_MOVIES_FAILURE](state) {
 		state.movieListData = [];
-	},
-	[types.CLEAR_INPUT](state) {
-		state.clearInputValue = true;
 	},
 	[types.TOGGLE_CLEAR](state, status) {
 		state.showClear = status;

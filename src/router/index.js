@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from '../components/App'
+import App from '../App'
 import Movie from '../components/Movie'
 import Detail from '../components/Detail'
 import Celebrity from '../components/Celebrity'
