@@ -1,43 +1,45 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: showClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="recordTxt" />
+            <input :class="[{on: movieSearchClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="cacheMovieTab" />
             <button class="y_subtn" @click="clearMovies">清 空</button>
         </div>
     </div>
 </template>
 <script type="text/javascript">
-import _ from 'lodash'
+import _ from '../lib/util'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            flag: false
+        }
+    },
     computed: {
         ...mapGetters({
             value: 'inputValue',
-            showClear: 'showClear'
+            movieSearchClear: 'movieSearchClear'
         })
     },
     created() {
         if (this.value) {
-            this.$store.dispatch('toggleClear', true);
             this.fetchMovies(this.value)
         }
     },
     methods: {
+        ...mapActions([
+            'cacheMovieTab'
+        ]),
         recoverState() {
             this.$store.dispatch('clearMovies');
             this.$store.dispatch('getMovies')
-            this.value = ''
+            this.flag = false
         },
         clearMovies() {
             this.recoverState()
         },
-        // 记录原始选中的txt的index
-        recordTxt() {
-            this.$store.dispatch('cacheTabIndex');
-            this.$store.dispatch('switchSearchApi', 0);
-        },
-        fetchMovies (val) {
+        fetchMovies(val) {
             this.$store.dispatch('getMovies', {
                 params: {
                     q: val
@@ -48,15 +50,17 @@ export default {
         fetchData: _.debounce(function(val) {
             this.fetchMovies(val)
         }, 500),
+        // 输入监听
         updateValue: function(val) {
-            console.log(val)
-            if (val !== '') {
-                this.$store.dispatch('switchTabIndex', 0);
-                this.$store.dispatch('toggleClear', true)
-                this.fetchData(val)
-            } else {
+            if (val !== '' && !this.flag) {
+                this.flag = true;
+                this.$store.dispatch('switchMovieTab', 0);
+            }
+            if (val === '') {
                 this.recoverState()
             }
+            this.$store.dispatch('storageInputValue', val)
+            this.fetchData(val)
         }
     }
 }

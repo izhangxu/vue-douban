@@ -37,7 +37,7 @@ export default {
     created: function() {
         const inpVal = this.inputValue == '' ? true : false
         this.$store.dispatch('switchSearchApi', inpVal ? 1 : 0);
-        this.$store.dispatch('switchTabIndex', inpVal ? 1 : 0);
+        this.$store.dispatch('switchMovieTab', inpVal ? 1 : 0);
         inpVal && this.$store.dispatch('getMovies')
     }
 }

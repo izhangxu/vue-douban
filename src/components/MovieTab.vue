@@ -19,7 +19,7 @@ export default {
         selectTab (index) {
             if (index) {
                 this.$store.dispatch('switchSearchApi', index);
-                this.$store.dispatch('switchTabIndex', index);
+                this.$store.dispatch('switchMovieTab', index);
                 this.$store.dispatch('getMovies', {
                     loadingStatus: true
                 });

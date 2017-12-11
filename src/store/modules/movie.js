@@ -8,11 +8,11 @@ const state = {
 	movieTabData: data_movie_tabs,
 	movieTabStyle: '',
 	cacheMovieTabIndex: 1,
-	showClear: false
+	movieSearchClear: false
 };
 
 const getters = {
-	showClear: state => state.showClear,
+	movieSearchClear: state => state.movieSearchClear,
 	// 下拉列表
 	movieListData: state => state.movieListData,
 	// tab
@@ -33,20 +33,19 @@ const getters = {
 
 const actions = {
 	// 切换tab
-	switchTabIndex({ dispatch, commit }, index) {
+	switchMovieTab({ dispatch, commit }, index) {
+		commit(types.TOGGLE_INPUT_CLEAR, index ? false : true)
 		commit(types.SWITCH_MOVIE_TAB, index)
+		dispatch('switchSearchApi', index)
 	},
 	// 缓存tabIndex
-	cacheTabIndex({ commit }) {
+	cacheMovieTab({ commit,dispatch}) {
 		commit(types.CACHE_MOVIE_TAB)
-	},
-	recoverTabIndex({ commit }) {
-		commit(types.RECOVER_MOVIE_TAB)
 	},
 	// 获取movies
 	getMovies({ dispatch, commit, rootState }, options = {}) {
-		options.loadingStatus === true && dispatch('loading', true);
 		commit(types.GET_MOVIES_REQUEST);
+		options.loadingStatus === true && dispatch('loading', true);
 		movie.getMovies(rootState.movieSearchApi, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
@@ -71,14 +70,11 @@ const actions = {
 			})
 	},
 	// 清除input
-	clearMovies({ dispatch, commit, rootState }) {
-		commit(types.TOGGLE_CLEAR, false)
+	clearMovies({ dispatch, commit }) {
+		commit(types.TOGGLE_INPUT_CLEAR, false)
 		commit(types.RECOVER_MOVIE_TAB)
-		dispatch('switchSearchApi', state.movieTabIndex);
-	},
-	// 切换删除按钮
-	toggleClear({commit }, status) {
-		commit(types.TOGGLE_CLEAR, status)
+		dispatch('clearInputValue')
+		dispatch('switchMovieTab', state.movieTabIndex);
 	}
 };
 
@@ -92,8 +88,8 @@ const mutations = {
 	[types.GET_MOVIES_FAILURE](state) {
 		state.movieListData = [];
 	},
-	[types.TOGGLE_CLEAR](state, status) {
-		state.showClear = status;
+	[types.TOGGLE_INPUT_CLEAR](state, status) {
+		state.movieSearchClear = status;
 	},
 	[types.SWITCH_MOVIE_TAB](state, index) {
 		state.movieTabIndex = index
