@@ -1,5 +1,5 @@
 <template>
-    <div class="y_list" data-tab="tabIndex">
+    <div class="y_list">
         <div class="row" v-for="item in movieListData">
             <router-link :to="{ name: 'Detail', params: { id: item.id }}">
                 <div class="y_img">
@@ -13,19 +13,25 @@
                 <div class="y_yue">{{item.rating.average}}分</div>
             </router-link>
         </div>
-        <div style="height:47px;"></div>
     </div>
 </template>
 <script type="text/javascript">
-import { mapGetters } from 'vuex'
+
+import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
-        ...mapGetters({
-            movieListData: 'movieListData'
-        })
+        ...mapGetters([
+            'inputValue',
+            'movieListData'
+        ])
     },
-    mounted() {
-        // this.$store.dispatch('getMovies')
+    methods: {
+        ...mapActions([
+            'getMovies',
+            'getMoviesSuccess',
+            'getMoviesFailure',
+            'switchSearchApi'
+        ])
     }
 }
 

@@ -21,6 +21,7 @@
 <script>
 import MovieList from './components/MovieList'
 import TabBar from './components/TabBar'
+import { mapActions } from 'vuex'
 
 export default {
     name: 'app',
@@ -28,20 +29,37 @@ export default {
         MovieList,
         TabBar,
     },
-    created () {
-        this.$store.dispatch('switchSearchApi', 2);
-        this.$store.dispatch('getMovies')
+    created() {
+        this.switchSearchApi(2)
+        this.getMovies().then(data => {
+            console.log(data);
+            this.getMoviesSuccess(data)
+        }).catch(e => {
+            this.getMoviesFailure();
+        })
     },
     methods: {
+        ...mapActions([
+            'getMovies',
+            'getMoviesSuccess',
+            'getMoviesFailure',
+            'switchSearchApi',
+            'storageInputValue'
+        ]),
         goSearchPage() {
-            this.$router.push({ path: 'movie'});
-            this.$store.dispatch('storageInputValue', this.$refs.indexInput.value)
+            this.$router.push({ path: 'movie' });
+            this.storageInputValue(this.$refs.indexInput.value)
         }
     }
 }
 
 </script>
 <style type="text/css">
+.wrap {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
 .y_bg01 {
     background: url(http://src.leju.com/imp/imp/deal/6e/7d/8/3db10c0bfc7b159d1cc1160e940_p49_mk45.jpg) no-repeat;
     background-size: 100% auto;
@@ -62,7 +80,6 @@ export default {
 }
 
 .y_section {
-    padding:0 15px;
     background: #fff
 }
 

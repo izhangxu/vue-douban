@@ -1,6 +1,6 @@
 <template>
     <div class="y_toolbar">
-        <div class="y_row" v-for="(item, index) in list" >
+        <div class="y_row" v-for="(item, index) in list">
             <router-link :to="{ name: item.name, params: { id: item.id }}">
                 <i :class="[item.class, {on: item.cur}]"></i>
                 <div class="txt">{{item.txt}}</div>
@@ -9,15 +9,20 @@
     </div>
 </template>
 <script type="text/javascript">
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
         ...mapGetters({
             list: 'list'
         })
     },
-    created () {
-        this.$store.dispatch('initTabBar')
+    methods: {
+        ...mapActions([
+            'initTabBar'
+        ])
+    },
+    created() {
+        this.initTabBar()
     }
 }
 
@@ -57,6 +62,7 @@ export default {
     line-height: 24px;
     height: 24px
 }
+
 
 
 

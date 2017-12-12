@@ -1,9 +1,7 @@
 import * as types from './mutation-types'
 
-export const loading = ({ commit }, status) => {
-	commit(types.LOADING_STATUS, {
-		status
-	});
+export const toggleLoadingStatus = ({ commit }, status) => {
+	commit(types.TOGGLE_LOADING_STATUS, status);
 }
 
 export const storageInputValue = ({ commit }, value) => {

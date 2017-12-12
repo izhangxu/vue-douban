@@ -1,8 +1,8 @@
 <template>
     <div class="y_shBox">
         <div class="y_search">
-            <input :class="[{on: movieSearchClear} ,'y_inp']" v-model="value" @input="updateValue($event.target.value)" @focus="cacheMovieTab" />
-            <button class="y_subtn" @click="clearMovies">清 空</button>
+            <input :class="[{on: movieSearchClear} ,'y_inp']" v-model="inputValue" @input="updateValue($event.target.value)" @focus="cacheMovieTab" />
+            <button class="y_subtn" @click="clearInputValue">清 空</button>
         </div>
     </div>
 </template>
@@ -17,34 +17,51 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            value: 'inputValue',
-            movieSearchClear: 'movieSearchClear'
-        })
+        ...mapGetters([
+            'inputValue',
+            'movieSearchClear'
+        ])
     },
     created() {
-        if (this.value) {
-            this.fetchMovies(this.value)
-        }
+        this.switchMovieTab(this.inputValue ? 0 : 1)
+        this.fetchMovies(this.inputValue)
     },
     methods: {
         ...mapActions([
-            'cacheMovieTab'
+            'switchMovieTab',
+            'cacheMovieTab',
+            'clearMovies',
+            'storageInputValue',
+            'getMovies',
+            'getMoviesSuccess',
+            'getMoviesFailure'
         ]),
+        // 清空状态
         recoverState() {
-            this.$store.dispatch('clearMovies');
-            this.$store.dispatch('getMovies')
+            this.clearMovies()
+            this.getMovies().then(data => {
+                this.getMoviesSuccess(data);
+            }).catch(e => {
+                this.getMoviesFailure();
+            })
             this.flag = false
         },
-        clearMovies() {
+        // 清空
+        clearInputValue() {
             this.recoverState()
         },
+        // 综合搜索
         fetchMovies(val) {
-            this.$store.dispatch('getMovies', {
+            const searchParams = val ? {
                 params: {
                     q: val
                 }
-            });
+            } : {}
+            this.getMovies(searchParams).then(data => {
+                this.getMoviesSuccess(data);
+            }).catch(e => {
+                this.getMoviesFailure();
+            })
         },
         // 获取数据
         fetchData: _.debounce(function(val) {
@@ -54,12 +71,12 @@ export default {
         updateValue: function(val) {
             if (val !== '' && !this.flag) {
                 this.flag = true;
-                this.$store.dispatch('switchMovieTab', 0);
+                this.switchMovieTab(0)
             }
             if (val === '') {
                 this.recoverState()
             }
-            this.$store.dispatch('storageInputValue', val)
+            this.storageInputValue(val)
             this.fetchData(val)
         }
     }

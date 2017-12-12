@@ -8,7 +8,8 @@ const state = {
 	movieTabData: data_movie_tabs,
 	movieTabStyle: '',
 	cacheMovieTabIndex: 1,
-	movieSearchClear: false
+	movieSearchClear: false,
+	loadingStatus: false
 };
 
 const getters = {
@@ -28,7 +29,8 @@ const getters = {
 		return {
 			width: 100 / len + '%'
 		}
-	}
+	},
+	loadingStatus: state => state.loadingStatus
 };
 
 const actions = {
@@ -44,9 +46,7 @@ const actions = {
 	},
 	// 获取movies
 	getMovies({ dispatch, commit, rootState }, options = {}) {
-		commit(types.GET_MOVIES_REQUEST);
-		options.loadingStatus === true && dispatch('loading', true);
-		movie.getMovies(rootState.movieSearchApi, options.params)
+		return movie.getMovies(rootState.movieSearchApi, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
 					// console.log(data.subjects)
@@ -58,16 +58,20 @@ const actions = {
 							item.newCasts = item.newCasts.join('、');
 						}
 					});
-					commit(types.GET_MOVIES_SUCCESS, data);
-				} else {
-					commit(types.GET_MOVIES_FAILURE);
+					return Promise.resolve(data)
 				}
-				options.loadingStatus === true && dispatch('loading', false);
 			})
 			.catch(e => {
-				commit(types.GET_MOVIES_FAILURE);
-				options.loadingStatus === true && dispatch('loading', false);
+				return Promise.reject(e)
 			})
+	},
+	// 成功
+	getMoviesSuccess({commit}, data) {
+		commit(types.GET_MOVIES_SUCCESS, data);
+	},
+	// 失败
+	getMoviesFailure({commit}) {
+		commit(types.GET_MOVIES_FAILURE);
 	},
 	// 清除input
 	clearMovies({ dispatch, commit }) {

@@ -2,8 +2,8 @@ import * as types from './mutation-types'
 import { ajaxApi } from '../api/data';
 
 export default {
-	[types.LOADING_STATUS] (state, opt) {
-		state.isLoading = opt.status;
+	[types.TOGGLE_LOADING_STATUS] (state, status) {
+		state.isLoading = status;
 	},
 	[types.STORAGE_INPUT_VALUE] (state, value) {
 		state.inputValue = value;

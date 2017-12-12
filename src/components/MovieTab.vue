@@ -16,21 +16,35 @@ export default {
         ])
     },
     methods: {
-        selectTab (index) {
+        ...mapActions([
+            'toggleLoadingStatus',
+            'switchMovieTab',
+            'getMovies',
+            'getMoviesSuccess',
+            'getMoviesFailure'
+        ]),
+        selectTab(index) {
             if (index) {
-                this.$store.dispatch('switchSearchApi', index);
-                this.$store.dispatch('switchMovieTab', index);
-                this.$store.dispatch('getMovies', {
-                    loadingStatus: true
-                });
+                this.switchMovieTab(index)
+                this.toggleLoadingStatus(true)
+                this.getMovies().then(data => {
+                    this.getMoviesSuccess(data)
+                    this.toggleLoadingStatus(false)
+                }).catch(e => {
+                    this.getMoviesFailure();
+                    this.toggleLoadingStatus(false)
+                })
             }
         }
     }
 }
+
 </script>
 <style type="text/css">
 .txt-slide-wrap {
     width: 100%;
+    width: calc(100% - 20px);
+    margin:0 10px;
     height: 30px;
     padding-bottom: 10px;
     white-space: nowrap;
@@ -53,4 +67,5 @@ export default {
 .txt-slide-wrap ul li.on {
     border-bottom: 2px solid #ffe600;
 }
+
 </style>

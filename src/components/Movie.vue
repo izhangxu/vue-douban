@@ -3,9 +3,9 @@
         <movie-search />
         <div class="y_section" style="marginTop: 46px">
             <movie-tab />
-            <div v-show="!isLoading">
+            <scroll-view :data="movieListData" :pullup="pullup" @pullup="loadData" v-show="!isLoading">
                 <movie-list />
-            </div>
+            </scroll-view>
             <loading />
         </div>
         <tab-bar />
@@ -17,28 +17,50 @@ import MovieSearch from './MovieSearch'
 import TabBar from './TabBar'
 import MovieTab from './MovieTab'
 import Loading from './Loading'
-import { mapGetters } from 'vuex'
+import ScrollView from '../common/ScrollView'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'movie',
+    data() {
+        return {
+            pullup: true
+        }
+    },
     components: {
         MovieSearch,
         MovieTab,
         MovieList,
         TabBar,
-        Loading
+        Loading,
+        ScrollView
     },
     computed: {
         ...mapGetters([
-            'inputValue',
-            'isLoading'
+            'isLoading',
+            'movieListData'
         ])
     },
-    created: function() {
-        const inpVal = this.inputValue == '' ? true : false
-        this.$store.dispatch('switchSearchApi', inpVal ? 1 : 0);
-        this.$store.dispatch('switchMovieTab', inpVal ? 1 : 0);
-        inpVal && this.$store.dispatch('getMovies')
+    methods: {
+        ...mapActions([
+            'getMovies',
+            'getMoviesSuccess',
+            'getMoviesFailure'
+        ]),
+        loadData() {
+            const searchParams = {
+                params: {
+                    start: this.movieListData.length
+                }
+            }
+            this.getMovies(searchParams)
+                .then(data => {
+                    data = this.movieListData.concat(data);
+                    this.getMoviesSuccess(data)
+                }).catch(e => {
+                    this.getMoviesFailure();
+                })
+        }
     }
 }
 
