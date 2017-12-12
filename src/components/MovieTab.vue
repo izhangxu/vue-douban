@@ -17,22 +17,28 @@ export default {
     },
     methods: {
         ...mapActions([
-            'toggleLoadingStatus',
+            'toggleLoading',
             'switchMovieTab',
             'getMovies',
             'getMoviesSuccess',
-            'getMoviesFailure'
+            'getMoviesFailure',
+            'disableScroll'
         ]),
         selectTab(index) {
             if (index) {
+                const oScrollView = this.$parent.$refs.scrollView;
                 this.switchMovieTab(index)
-                this.toggleLoadingStatus(true)
+                this.toggleLoading(true)
+                if (oScrollView) {
+                    oScrollView.scrollTo(0, 0)
+                    this.disableScroll(index == 4 ? true:false)
+                }
                 this.getMovies().then(data => {
                     this.getMoviesSuccess(data)
-                    this.toggleLoadingStatus(false)
+                    this.toggleLoading(false)
                 }).catch(e => {
                     this.getMoviesFailure();
-                    this.toggleLoadingStatus(false)
+                    this.toggleLoading(false)
                 })
             }
         }
@@ -44,7 +50,7 @@ export default {
 .txt-slide-wrap {
     width: 100%;
     width: calc(100% - 20px);
-    margin:0 10px;
+    margin: 0 10px;
     height: 30px;
     padding-bottom: 10px;
     white-space: nowrap;

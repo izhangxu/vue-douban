@@ -13,6 +13,7 @@
                 <div class="y_yue">{{item.rating.average}}分</div>
             </router-link>
         </div>
+        <slot name="load"></slot>
     </div>
 </template>
 <script type="text/javascript">

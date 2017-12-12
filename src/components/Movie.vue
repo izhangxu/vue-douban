@@ -3,8 +3,10 @@
         <movie-search />
         <div class="y_section" style="marginTop: 46px">
             <movie-tab />
-            <scroll-view :data="movieListData" :pullup="pullup" @pullup="loadData" v-show="!isLoading">
-                <movie-list />
+            <scroll-view ref="scrollView" :data="movieListData" :pullup="pullup" @pullup="loadMovies" v-show="!isLoading">
+                <movie-list>
+                    <div slot="load" class="load">加载中...</div>
+                </movie-list>
             </scroll-view>
             <loading />
         </div>
@@ -38,7 +40,8 @@ export default {
     computed: {
         ...mapGetters([
             'isLoading',
-            'movieListData'
+            'movieListData',
+            'scrollDisabled'
         ])
     },
     methods: {
@@ -47,19 +50,22 @@ export default {
             'getMoviesSuccess',
             'getMoviesFailure'
         ]),
-        loadData() {
-            const searchParams = {
-                params: {
-                    start: this.movieListData.length
+        loadMovies() {
+            if (!this.scrollDisabled) {
+                const searchParams = {
+                    params: {
+                        start: this.movieListData.length
+                    }
                 }
+                
+                this.getMovies(searchParams)
+                    .then(data => {
+                        data = this.movieListData.concat(data);
+                        this.getMoviesSuccess(data)
+                    }).catch(e => {
+                        this.getMoviesFailure();
+                    })
             }
-            this.getMovies(searchParams)
-                .then(data => {
-                    data = this.movieListData.concat(data);
-                    this.getMoviesSuccess(data)
-                }).catch(e => {
-                    this.getMoviesFailure();
-                })
         }
     }
 }

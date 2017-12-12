@@ -9,7 +9,7 @@ const state = {
 	movieTabStyle: '',
 	cacheMovieTabIndex: 1,
 	movieSearchClear: false,
-	loadingStatus: false
+	scrollDisabled: false
 };
 
 const getters = {
@@ -30,7 +30,7 @@ const getters = {
 			width: 100 / len + '%'
 		}
 	},
-	loadingStatus: state => state.loadingStatus
+	scrollDisabled: state => state.scrollDisabled
 };
 
 const actions = {
@@ -41,7 +41,7 @@ const actions = {
 		dispatch('switchSearchApi', index)
 	},
 	// 缓存tabIndex
-	cacheMovieTab({ commit,dispatch}) {
+	cacheMovieTab({ commit, dispatch }) {
 		commit(types.CACHE_MOVIE_TAB)
 	},
 	// 获取movies
@@ -66,12 +66,16 @@ const actions = {
 			})
 	},
 	// 成功
-	getMoviesSuccess({commit}, data) {
+	getMoviesSuccess({ commit }, data) {
 		commit(types.GET_MOVIES_SUCCESS, data);
 	},
 	// 失败
-	getMoviesFailure({commit}) {
+	getMoviesFailure({ commit }) {
 		commit(types.GET_MOVIES_FAILURE);
+	},
+	// 禁止滚动
+	disableScroll({commit}, status) {
+		commit(types.DISABLE_SCROLL, status);	
 	},
 	// 清除input
 	clearMovies({ dispatch, commit }) {
@@ -83,6 +87,9 @@ const actions = {
 };
 
 const mutations = {
+	[types.DISABLE_SCROLL] (state, status) {
+		state.scrollDisabled = status
+	},
 	[types.GET_MOVIES_REQUEST](state) {
 		state.movieListData = [];
 	},

@@ -113,3 +113,9 @@ li {
     vertical-align: middle;
     margin-right: 5px
 }
+.load {
+    display: none;
+    height: 47px;
+    text-align: center;
+    line-height: 47px;
+}
