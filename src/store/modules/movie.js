@@ -1,6 +1,6 @@
 import * as types from '../mutation-types'
 import { data_movie_tabs, ajaxApi } from '../../api/data';
-import movie from '../../api/movie'
+import service from '../../api/service'
 
 const state = {
 	movieListData: [],
@@ -51,7 +51,7 @@ const actions = {
 	},
 	// 获取movies
 	getMovies({ dispatch, commit, rootState }, options = {}) {
-		return movie.getMovies(rootState.movieSearchApi, options.params)
+		return service.getMovies(rootState.movieSearchApi, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
 					// console.log(data.subjects)
@@ -62,6 +62,10 @@ const actions = {
 							item.newCasts = item.casts.map(ele => ele.name);
 							item.newCasts = item.newCasts.join('、');
 						}
+						if (item.directors.length) {
+							item.newDirectors = item.directors.map(ele => ele.name);
+							item.newDirectors = item.newDirectors.join('、');
+						}
 					});
 					return Promise.resolve(data)
 				}
@@ -69,6 +73,10 @@ const actions = {
 			.catch(e => {
 				return Promise.reject(e)
 			})
+	},
+	// before
+	getMoviesRequest({commit}) {
+		commit(types.GET_MOVIES_REQUEST);
 	},
 	// 成功
 	getMoviesSuccess({ commit }, data) {

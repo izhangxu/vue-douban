@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import App from '../App'
-import Movie from '../components/Movie'
-import Detail from '../components/Detail'
-import Celebrity from '../components/Celebrity'
-import Admin from '../components/Admin'
+import Movie from '../components/movie/Movie'
+import Detail from '../components/detail/Detail'
+import Celebrity from '../components/celebrity/Celebrity'
+import Admin from '../components/admin/Admin'
 
 
 import VueRouter from 'vue-router'

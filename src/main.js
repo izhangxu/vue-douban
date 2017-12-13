@@ -12,6 +12,11 @@ const unsync = sync(store, router)
 
 Vue.config.productionTip = false
 
+Vue.filter('handleImageUrl', (value) => {
+	if (!value) return '';
+	return value.replace(/http\w{0,1}:\/\/(.)/g, 'https://images.weserv.nl/?url=$1');
+})
+
 new Vue({
 	el: '#app',
 	store,

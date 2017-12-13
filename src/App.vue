@@ -13,15 +13,17 @@
         </div>
         <div class="y_section">
             <div class="y_tit">即将上映</div>
-            <movie-list />
-            <div style="height:47px;"></div>
+            <div style="margin: 0 10px;">
+                <movie-list />
+                <div style="height:47px;"></div>
+            </div>
         </div>
         <tab-bar />
     </div>
 </template>
 <script>
-import MovieList from './components/MovieList'
-import TabBar from './components/TabBar'
+import MovieList from './components/movie/MovieList'
+import TabBar from './components/footer/TabBar'
 import { mapActions } from 'vuex'
 
 export default {
@@ -32,8 +34,8 @@ export default {
     },
     created() {
         this.switchSearchApi(2)
+        this.getMoviesRequest()
         this.getMovies().then(data => {
-            console.log(data);
             this.getMoviesSuccess(data)
         }).catch(e => {
             this.getMoviesFailure();
@@ -42,6 +44,7 @@ export default {
     methods: {
         ...mapActions([
             'getMovies',
+            'getMoviesRequest',
             'getMoviesSuccess',
             'getMoviesFailure',
             'switchSearchApi',
@@ -62,7 +65,7 @@ export default {
     overflow: hidden;
 }
 .y_bg01 {
-    background: url(http://src.leju.com/imp/imp/deal/6e/7d/8/3db10c0bfc7b159d1cc1160e940_p49_mk45.jpg) no-repeat;
+    background: url(./assets/Brushes.png) no-repeat;
     background-size: 100% auto;
     overflow: hidden
 }

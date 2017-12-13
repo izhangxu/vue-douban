@@ -1,5 +1,5 @@
 import * as types from '../mutation-types'
-import movie from '../../api/movie'
+import service from '../../api/service'
 
 const state = {
 	detailData: [],
@@ -14,11 +14,13 @@ const getters = {
 };
 
 const actions = {
+	// 获取电影数据
 	getMovieDetail({ state, dispatch, commit, rootState }, id) {
 		dispatch('toggleLoading', true)
+		commit(types.GET_DETAIL_REQUEST)
 		const route = rootState.route;
 		if (route) {
-			movie.getMovieDetail(route.params.id)
+			service.getDetail(route.params.id)
 				.then(data => {
 					if (data.id) {
 						data.newCasts = data.casts.map(k => k.name)
@@ -38,25 +40,22 @@ const actions = {
 				})
 		}
 	},
+	// 收藏
 	collectMovie({ state, commit, rootState }) {
-		console.log(state.detailData)
 		const itemIndex = state.collectList.length ? state.collectList.findIndex(ele => ele.id == rootState.route.params.id) : -1
 		if (itemIndex < 0) {
 			const item = state.detailData
-			console.log(item)
 			item.date = Date.now()
 			commit(types.COLLECT_MOVIE_ADD, item)
-			commit(types.INIT_COLLECT_STATUS, true)	
+			commit(types.INIT_COLLECT_STATUS, true)
 		} else {
-
 			commit(types.COLLECT_MOVIE_DELETE, itemIndex)
 			commit(types.INIT_COLLECT_STATUS, false)
 		}
 	},
+	// 初始化收藏状态
 	initCollectStats({ commit, rootState }) {
-		console.log(state.collectList)
-		const item = state.detailData.find(ele => ele.id == rootState.route.params.id)
-		console.log(item)
+		const item = state.collectList.find(ele => ele.id == rootState.route.params.id)
 		commit(types.INIT_COLLECT_STATUS, item ? true : false)
 	}
 };
