@@ -40,10 +40,12 @@ const actions = {
 		commit(types.CHANGE_LOAD_TXT, text)
 	},
 	// 切换tab
-	switchMovieTab({ state, dispatch, commit }, index) {
+	switchMovieTab({ state, dispatch, commit, rootState }, index) {
 		if (index !== state.movieTabIndex) {
 			commit(types.TOGGLE_INPUT_CLEAR, index ? false : true)
 			commit(types.SWITCH_MOVIE_TAB, index)
+		}
+		if (rootState.movieSearchApi.index && rootState.movieSearchApi.index !== index) {
 			dispatch('switchSearchApi', index)
 		}
 	},

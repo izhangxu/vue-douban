@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
 	// 获取电影数据
-	getMovieDetail({ state, dispatch, commit, rootState }, id) {
+	getDetail({ state, dispatch, commit, rootState }, id) {
 		dispatch('toggleLoading', true)
 		commit(types.GET_DETAIL_REQUEST)
 		const route = rootState.route;

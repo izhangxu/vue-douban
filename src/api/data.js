@@ -1,6 +1,6 @@
 export const data_footer = [{
 	txt: '首页',
-	name: 'App',
+	name: 'Index',
 	class: 'footer_icon_01',
 	cur: 0
 }, {
