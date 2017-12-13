@@ -1,6 +1,5 @@
 import * as types from '../mutation-types'
 import { data_footer } from '../../api/data';
-import router from '../../router'
 
 const state = {
 	list: data_footer

@@ -14,6 +14,7 @@
         <div class="y_section">
             <div class="y_tit">即将上映</div>
             <movie-list />
+            <div style="height:47px;"></div>
         </div>
         <tab-bar />
     </div>

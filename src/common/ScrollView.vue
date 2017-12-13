@@ -104,7 +104,7 @@ export default {
 			if (this.pullup) {
 				this.scroll.on('scrollEnd', () => {
 					// 滚动到底部
-					if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+					if (this.scroll.y <= (this.scroll.maxScrollY + 10)) {
 						this.$emit('pullup')
 					}
 				})
@@ -162,6 +162,8 @@ export default {
 	.wrapper {
 		overflow: hidden;
 	    position: absolute;
+	    right: 0;
+    	left: 0;
 	    bottom: 47px;
 	    top: 86px;
 	    margin:0 10px;

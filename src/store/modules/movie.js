@@ -9,7 +9,8 @@ const state = {
 	movieTabStyle: '',
 	cacheMovieTabIndex: 1,
 	movieSearchClear: false,
-	scrollDisabled: false
+	scrollDisabled: false,
+	loadTxt: '加载中...'
 };
 
 const getters = {
@@ -30,10 +31,14 @@ const getters = {
 			width: 100 / len + '%'
 		}
 	},
-	scrollDisabled: state => state.scrollDisabled
+	scrollDisabled: state => state.scrollDisabled,
+	loadTxt: state=>state.loadTxt
 };
 
 const actions = {
+	changeLoadTxt({commit}, text) {
+		commit(types.CHANGE_LOAD_TXT, text)
+	},
 	// 切换tab
 	switchMovieTab({ dispatch, commit }, index) {
 		commit(types.TOGGLE_INPUT_CLEAR, index ? false : true)
@@ -87,6 +92,9 @@ const actions = {
 };
 
 const mutations = {
+	[types.CHANGE_LOAD_TXT](state, text) {
+		state.loadTxt = text
+	},
 	[types.DISABLE_SCROLL] (state, status) {
 		state.scrollDisabled = status
 	},

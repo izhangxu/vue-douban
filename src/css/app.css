@@ -114,7 +114,7 @@ li {
     margin-right: 5px
 }
 .load {
-    display: none;
+    /*display: none;*/
     height: 47px;
     text-align: center;
     line-height: 47px;

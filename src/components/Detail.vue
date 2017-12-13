@@ -5,18 +5,18 @@
             <section class="subject-info">
                 <div class="right">
                     <a href="javascript:;">
-                        <img width="90" :src="subject.images.medium" :alt="subject.title" class="cover">
+                        <img width="90"  :alt="subject.title" class="cover">
                     </a>
                 </div>
                 <div class="left">
                     <p class="rating">
                         <template v-if="subject.rating.average">
-                            <span class="rating-stars" v-run="register('stars')"></span>
+                            <span class="rating-stars" ref="stars"></span>
                             <strong>{{subject.rating.average}}</strong>
                         </template>
                         <span>{{subject.reviews_count}}人评价</span>
-                        <span v-if="collectCls == true"><i class="collect-on" @click="collectMovie"></i>已收藏</span>
-                        <span v-else="collectCls == false"><i class="collect" @click="collectMovie"></i>收藏</span>
+                        <span v-if="collected == true"><i class="collect-on" @click="collectMovie"></i>已收藏</span>
+                        <span v-else="collected == false"><i class="collect" @click="collectMovie"></i>收藏</span>
                     </p>
                     <p class="meta">
                         上映时间-{{subject.year}}，上映地点-{{subject.newCountries}}，导演-{{subject.newDirectors}}，主演-{{subject.newCasts}}
@@ -40,7 +40,7 @@
                 <div class="casts-wrap">
                     <div class="casts-item" v-for="item in subject.directors">
                         <router-link :to="{ name: 'Celebrity', params: { id: item.id }}">
-                            <img v-if="item.avatars" :src="item.avatars.medium" width="90" height="120">
+                            <img v-if="item.avatars"  width="90" height="120">
                             <p class="name">姓名：{{item.name}}</p>
                             <p class="intro"><a :href="item.alt">豆瓣主页</a></p>
                         </router-link>
@@ -52,7 +52,7 @@
                 <div class="casts-wrap">
                     <div class="casts-item" v-for="item in subject.casts">
                         <router-link :to="{ name: 'Celebrity', params: { id: item.id }}">
-                            <img v-if="item.avatars" :src="item.avatars.medium" width="90" height="120">
+                            <img v-if="item.avatars" width="90" height="120">
                             <p class="name">姓名：{{item.name}}</p>
                             <p class="intro"><a :href="item.alt">豆瓣主页</a></p>
                         </router-link>
@@ -64,45 +64,26 @@
     </div>
 </template>
 <script type="text/javascript">
-import {
-    cookie
-} from 'cookie_js'
 import _ from '../lib/util'
 import Loading from './Loading'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
     components: {
         Loading
     },
-    data() {
-        return {
-            id: this.$route.params.id,
-            subject: null,
-            loaded: false,
-            collectCls: false,
-            elements: {}
-        }
-    },
-    mounted() {
-        let co = cookie.get('key')
-        if (co && ~co.indexOf(_.trim(this.id))) {
-            this.collectCls = true
-        }
-    },
-    directives: {
-        run: {
-            inserted(el, binding) {
-                if (typeof binding.value === 'function') {
-                    binding.value(el)
-                }
-            }
-        }
+    computed:{
+        ...mapGetters({
+            subject: 'detailData',
+            collected: 'collected'
+        })
     },
     created() {
-        this.fetchData()
+        this.getMovieDetail()
+        this.initCollectStats()
     },
     updated() {
-        let starsEle = this.elements.stars
+        let starsEle = this.$refs.stars
         let average = this.subject.rating.average
         let num = Math.round(average)
         if (num) {
@@ -111,53 +92,18 @@ export default {
     },
     watch: {
         // 如果路由有变化，会再次执行该方法
-        '$route': 'fetchData'
+        '$route': 'getMovieDetail'
     },
     methods: {
-        register(flag) {
-            return (el) => {
-                this.elements[flag] = el
+        ...mapActions([
+            'getMovieDetail',
+            'collectMovie',
+            'initCollectStats'
+        ]),
+        getImage(url) {
+            if (url !== undefined) {
+                return url.replace(/http\w{0,1}:\/\/(.)/g, 'https://images.weserv.nl/?url=$1');
             }
-        },
-        fetchData() {
-            this.$http({
-                    url: 'https://api.douban.com/v2/movie/subject/' + this.id,
-                    method: 'jsonp',
-                    params: {}
-                })
-                .then(function(res) {
-                    let data = JSON.parse(res.bodyText);
-                    if (data.id) {
-                        this.subject = data
-                        data.newDirectors = []
-                        data.newCasts = []
-                        data.casts.forEach((k) => {
-                            data.newCasts.push(k.name)
-                        })
-                        data.newCasts = data.newCasts.join('、')
-                        data.directors.forEach((k) => {
-                            data.newDirectors.push(k.name)
-                        })
-                        data.newDirectors = data.newDirectors.join('、')
-                        data.newCountries = data.countries.join('、')
-                    }
-                    this.loaded = true
-                })
-        },
-        collectMovie() {
-            let pId = this.$route.params.id,
-                title = this.subject.title,
-                Exp = new RegExp('_*' + pId + '\\|[^_]*\\|\\d+'),
-                co = ''
-            if (cookie.get('key')) {
-                co = cookie.get('key').replace(/^_*/, '')
-            }
-            if (!~co.indexOf(_.trim(pId))) {
-                cookie.set('key', co + '___' + pId + '|' + title + '|' + new Date().getTime(), 7);
-            } else {
-                cookie.set('key', co.replace(Exp, ''), 7);
-            }
-            this.collectCls = !this.collectCls
         }
     }
 }

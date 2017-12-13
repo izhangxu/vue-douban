@@ -22,7 +22,8 @@ export default {
             'getMovies',
             'getMoviesSuccess',
             'getMoviesFailure',
-            'disableScroll'
+            'disableScroll',
+            'changeLoadTxt'
         ]),
         selectTab(index) {
             if (index) {
@@ -33,6 +34,7 @@ export default {
                     oScrollView.scrollTo(0, 0)
                     this.disableScroll(index == 4 ? true:false)
                 }
+                this.changeLoadTxt('加载中...')
                 this.getMovies().then(data => {
                     this.getMoviesSuccess(data)
                     this.toggleLoading(false)

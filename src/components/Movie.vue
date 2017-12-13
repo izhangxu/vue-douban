@@ -5,7 +5,7 @@
             <movie-tab />
             <scroll-view ref="scrollView" :data="movieListData" :pullup="pullup" @pullup="loadMovies" v-show="!isLoading">
                 <movie-list>
-                    <div slot="load" class="load">加载中...</div>
+                    <div slot="load" class="load">{{loadTxt}}</div>
                 </movie-list>
             </scroll-view>
             <loading />
@@ -41,14 +41,17 @@ export default {
         ...mapGetters([
             'isLoading',
             'movieListData',
-            'scrollDisabled'
+            'scrollDisabled',
+            'loadTxt'
         ])
     },
     methods: {
         ...mapActions([
             'getMovies',
             'getMoviesSuccess',
-            'getMoviesFailure'
+            'getMoviesFailure',
+            'disableScroll',
+            'changeLoadTxt'
         ]),
         loadMovies() {
             if (!this.scrollDisabled) {
@@ -57,9 +60,12 @@ export default {
                         start: this.movieListData.length
                     }
                 }
-                
                 this.getMovies(searchParams)
                     .then(data => {
+                        if (data.length < 10) {
+                            this.changeLoadTxt('无更多数据')
+                            this.disableScroll(true)
+                        }
                         data = this.movieListData.concat(data);
                         this.getMoviesSuccess(data)
                     }).catch(e => {

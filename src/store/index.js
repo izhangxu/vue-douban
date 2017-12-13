@@ -6,6 +6,7 @@ import * as getters from './getters'
 import mutations from './mutations'
 import tabBar from './modules/tabBar'
 import movie from './modules/movie'
+import detail from './modules/detail'
 
 Vue.use(Vuex);
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
 	mutations,
 	modules: {
 		movie,
-		tabBar
+		tabBar,
+		detail
 	},
 	plugins: [createLogger()]
 });

@@ -3,7 +3,7 @@
         <div class="row" v-for="item in movieListData">
             <router-link :to="{ name: 'Detail', params: { id: item.id }}">
                 <div class="y_img">
-                    <img class="y_img" :src="item.images.small"></img>
+                    <img :src="getImage(item.images.small)"></img>
                 </div>
                 <div class="y_txt">
                     <div class="t1">{{item.title}}</div>
@@ -17,7 +17,6 @@
     </div>
 </template>
 <script type="text/javascript">
-
 import { mapGetters, mapActions } from 'vuex'
 export default {
     computed: {
@@ -32,7 +31,12 @@ export default {
             'getMoviesSuccess',
             'getMoviesFailure',
             'switchSearchApi'
-        ])
+        ]),
+        getImage(url) {
+            if (url !== undefined) {
+                return url.replace(/http\w{0,1}:\/\/(.)/g, 'https://images.weserv.nl/?url=$1');
+            }
+        }
     }
 }
 
@@ -51,11 +55,12 @@ export default {
 
 .y_list .row .y_img {
     width: 90px;
+    height: 126px;
     float: left;
     position: relative
 }
 
-.y_list .row .y_img image {
+.y_list .row .y_img img {
     width: 100%;
     height: 100%;
     display: block
