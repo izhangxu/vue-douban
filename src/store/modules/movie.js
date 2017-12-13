@@ -32,18 +32,20 @@ const getters = {
 		}
 	},
 	scrollDisabled: state => state.scrollDisabled,
-	loadTxt: state=>state.loadTxt
+	loadTxt: state => state.loadTxt
 };
 
 const actions = {
-	changeLoadTxt({commit}, text) {
+	changeLoadTxt({ commit }, text) {
 		commit(types.CHANGE_LOAD_TXT, text)
 	},
 	// 切换tab
-	switchMovieTab({ dispatch, commit }, index) {
-		commit(types.TOGGLE_INPUT_CLEAR, index ? false : true)
-		commit(types.SWITCH_MOVIE_TAB, index)
-		dispatch('switchSearchApi', index)
+	switchMovieTab({ state, dispatch, commit }, index) {
+		if (index !== state.movieTabIndex) {
+			commit(types.TOGGLE_INPUT_CLEAR, index ? false : true)
+			commit(types.SWITCH_MOVIE_TAB, index)
+			dispatch('switchSearchApi', index)
+		}
 	},
 	// 缓存tabIndex
 	cacheMovieTab({ commit, dispatch }) {
@@ -54,7 +56,6 @@ const actions = {
 		return service.getMovies(rootState.movieSearchApi, options.params)
 			.then(data => {
 				if (data.total > 0 || data.date) {
-					// console.log(data.subjects)
 					data = data.subjects;
 					data = data.map(item => item.subject ? item.subject : item);
 					data.forEach(item => {
@@ -75,7 +76,7 @@ const actions = {
 			})
 	},
 	// before
-	getMoviesRequest({commit}) {
+	getMoviesRequest({ commit }) {
 		commit(types.GET_MOVIES_REQUEST);
 	},
 	// 成功
@@ -87,8 +88,8 @@ const actions = {
 		commit(types.GET_MOVIES_FAILURE);
 	},
 	// 禁止滚动
-	disableScroll({commit}, status) {
-		commit(types.DISABLE_SCROLL, status);	
+	disableScroll({ commit }, status) {
+		commit(types.DISABLE_SCROLL, status);
 	},
 	// 清除input
 	clearMovies({ dispatch, commit }) {
@@ -103,7 +104,7 @@ const mutations = {
 	[types.CHANGE_LOAD_TXT](state, text) {
 		state.loadTxt = text
 	},
-	[types.DISABLE_SCROLL] (state, status) {
+	[types.DISABLE_SCROLL](state, status) {
 		state.scrollDisabled = status
 	},
 	[types.GET_MOVIES_REQUEST](state) {

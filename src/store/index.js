@@ -8,6 +8,7 @@ import tabBar from './modules/tabBar'
 import movie from './modules/movie'
 import detail from './modules/detail'
 import celebrity from './modules/celebrity'
+import { ajaxApi } from '../api/data'
 
 Vue.use(Vuex);
 
@@ -15,7 +16,7 @@ const state = {
 	isLoading: false,
 	inputValue: '',
 	tabBarIndex: 0,
-	movieSearchApi: {},
+	movieSearchApi: ajaxApi[1],
 };
 
 export default new Vuex.Store({

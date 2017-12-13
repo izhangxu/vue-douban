@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-import { ajaxApi } from '../api/data';
+import { ajaxApi } from '../api/data'
 
 export default {
 	[types.TOGGLE_LOADING] (state, status) {
