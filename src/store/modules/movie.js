@@ -96,7 +96,7 @@ const actions = {
 		commit(types.TOGGLE_INPUT_CLEAR, false)
 		commit(types.RECOVER_MOVIE_TAB)
 		dispatch('clearInputValue')
-		dispatch('switchMovieTab', state.movieTabIndex);
+		dispatch('switchSearchApi', state.movieTabIndex);
 	}
 };
 

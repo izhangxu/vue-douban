@@ -77,7 +77,7 @@ export default {
 }
 
 .y_txtBox .t1 {
-    font-size: 14px;
+    font-size: 20px;
     line-height: 60px;
     color: #463836;
     font-weight: bolder
