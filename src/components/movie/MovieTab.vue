@@ -9,10 +9,16 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            oScrollView: this.$parent.$refs.scrollView
+        }
+    },
     computed: {
         ...mapGetters([
             'movieTabData',
-            'movieTabStyle'
+            'movieTabStyle',
+            'movieTabIndex'
         ])
     },
     methods: {
@@ -27,23 +33,25 @@ export default {
             'clearInputValue'
         ]),
         selectTab(index) {
-            if (index) {
-                const oScrollView = this.$parent.$refs.scrollView;
+            if (index && index != this.movieTabIndex) {
                 this.switchMovieTab(index)
-                this.toggleLoading(true)
                 this.clearInputValue()
-                if (oScrollView) {
-                    oScrollView.scrollTo(0, 0)
-                    this.disableScroll(index == 4 ? true:false)
+                if (this.oScrollView) {
+                    this.oScrollView.scrollTo(0, 0)
+                    this.disableScroll(index == 4 ? true : false)
+                    this.changeLoadTxt(index == 4 ? '' : '加载中...')
                 }
-                this.changeLoadTxt('加载中...')
-                this.getMovies().then(data => {
-                    this.getMoviesSuccess(data)
-                    this.toggleLoading(false)
-                }).catch(e => {
-                    this.getMoviesFailure();
-                    this.toggleLoading(false)
-                })
+                this.toggleLoading(true)
+                this.getMovies()
+                    .then(data => {
+                        this.getMoviesSuccess(data)
+                    })
+                    .catch(e => {
+                        this.getMoviesFailure()
+                    })
+                    .finally(() => {
+                        this.toggleLoading(false)
+                    })
             }
         }
     }

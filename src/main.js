@@ -4,11 +4,13 @@
 import Vue from 'vue'
 import router from './router'
 import store from './store'
+import VueResource from 'vue-resource'
 import { sync } from 'vuex-router-sync'
 import './css/app.css'
 
-
 const unsync = sync(store, router)
+
+Vue.use(VueResource)
 
 Vue.config.productionTip = false
 

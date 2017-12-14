@@ -10,13 +10,14 @@ const state = {
 	cacheMovieTabIndex: 1,
 	movieSearchClear: false,
 	scrollDisabled: false,
-	loadTxt: '加载中...'
+	loadTxt: ''
 };
 
 const getters = {
 	movieSearchClear: state => state.movieSearchClear,
 	// 下拉列表
 	movieListData: state => state.movieListData,
+	movieTabIndex: state => state.movieTabIndex,
 	// tab
 	movieTabData: state => {
 		state.movieTabData.forEach((item, i) => {
@@ -36,13 +37,17 @@ const getters = {
 };
 
 const actions = {
-	changeLoadTxt({ commit }, text) {
+	changeLoadTxt({ state, commit }, text) {
+		if (text == state.loadTxt) return;
 		commit(types.CHANGE_LOAD_TXT, text)
 	},
 	// 切换tab
 	switchMovieTab({ state, dispatch, commit, rootState }, index) {
 		if (index !== state.movieTabIndex) {
-			commit(types.TOGGLE_INPUT_CLEAR, index ? false : true)
+			const clearStatus = index ? false : true
+			if (clearStatus != state.movieSearchClear) {
+				commit(types.TOGGLE_INPUT_CLEAR, clearStatus)
+			}
 			commit(types.SWITCH_MOVIE_TAB, index)
 		}
 		if (rootState.movieSearchApi.index && rootState.movieSearchApi.index !== index) {
@@ -90,13 +95,16 @@ const actions = {
 		commit(types.GET_MOVIES_FAILURE);
 	},
 	// 禁止滚动
-	disableScroll({ commit }, status) {
+	disableScroll({ state, commit }, status) {
+		if (status == state.scrollDisabled) return;
 		commit(types.DISABLE_SCROLL, status);
 	},
 	// 清除input
 	clearMovies({ dispatch, commit }) {
 		commit(types.TOGGLE_INPUT_CLEAR, false)
 		commit(types.RECOVER_MOVIE_TAB)
+		commit(types.DISABLE_SCROLL, false)
+		commit(types.CHANGE_LOAD_TXT, '加载中...')
 		dispatch('clearInputValue')
 		dispatch('switchSearchApi', state.movieTabIndex);
 	}

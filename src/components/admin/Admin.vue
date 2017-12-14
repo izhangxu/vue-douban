@@ -6,7 +6,7 @@
             </div>
             <div class="ty_bac"></div>
         </div>
-        <div class="ty_main_list" v-if="subject">
+        <div class="ty_main_list" v-if="subject.length">
             <template v-for="item in subject">
                 <router-link :to="{ name: 'Detail', params: { id: item.id }}">
                     <div class="ty_list">

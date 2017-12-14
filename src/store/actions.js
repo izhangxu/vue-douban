@@ -8,7 +8,8 @@ export const storageInputValue = ({ commit }, value) => {
 	commit(types.STORAGE_INPUT_VALUE, value);
 }
 
-export const clearInputValue = ({ commit }) => {
+export const clearInputValue = ({ state, commit }) => {
+	if (!state.inputValue) return;
 	commit(types.CLEAR_INPUT_VALUE);
 }
 

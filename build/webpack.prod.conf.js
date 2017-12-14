@@ -10,8 +10,23 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 var env = config.build.env
-
-var webpackConfig = merge(baseWebpackConfig, {
+// 替换api路径
+baseWebpackConfig = merge(baseWebpackConfig, {
+  module: {
+    rules: [
+      {
+        test: /(data|service)\.js$/,
+        loader: 'string-replace-loader',
+        query: {
+          search: '/v2/movie',
+          replace: 'http://api.douban.com/v2/movie',
+          flags: 'g'
+        }
+      }
+    ]
+  }
+});
+webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,

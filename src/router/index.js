@@ -40,6 +40,7 @@ const routes = [{
 }];
 
 export default new VueRouter({
+	base: '/vue_douban/',
 	mode: 'history',
 	routes
 })

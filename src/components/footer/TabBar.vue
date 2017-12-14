@@ -64,15 +64,6 @@ export default {
     height: 24px
 }
 
-
-
-
-
-
-/*.y_toolbar .on {
-    background: #ffe600;
-}*/
-
 .y_toolbar .on .txt {
     color: #425571
 }

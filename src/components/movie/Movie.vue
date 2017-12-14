@@ -5,7 +5,7 @@
             <movie-tab />
             <scroll-view ref="scrollView" :data="movieListData" :pullup="pullup" @pullup="loadMovies" v-show="!isLoading">
                 <movie-list>
-                    <div slot="load" class="load">{{loadTxt}}</div>
+                    <div slot="load" class="load" v-show="loadTxt">{{loadTxt}}</div>
                 </movie-list>
             </scroll-view>
             <loading />
@@ -45,8 +45,9 @@ export default {
             'loadTxt'
         ])
     },
-    created(){
+    created() {
         this.getMoviesRequest()
+        this.changeLoadTxt('加载中...')
     },
     methods: {
         ...mapActions([
@@ -72,7 +73,8 @@ export default {
                         }
                         data = this.movieListData.concat(data);
                         this.getMoviesSuccess(data)
-                    }).catch(e => {
+                    })
+                    .catch(e => {
                         this.getMoviesFailure();
                     })
             }

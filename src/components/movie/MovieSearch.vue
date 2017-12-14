@@ -11,6 +11,11 @@ import _ from '../../libs/util'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            oScrollView: this.$parent.$refs.scrollView
+        }
+    },
     computed: {
         ...mapGetters([
             'inputValue',
@@ -20,6 +25,20 @@ export default {
     created() {
         this.switchMovieTab(this.inputValue ? 0 : 1)
         this.fetchMovies(this.inputValue)
+    },
+    watch: {
+        'inputValue': (val) => {
+            if (val) {
+                this.switchMovieTab(0)
+                this.changeLoadTxt('')
+                if (this.oScrollView) {
+                    this.oScrollView.scrollTo(0, 0)
+                    this.disableScroll(true)
+                }
+            } else {
+                this.recoverState()
+            }
+        }
     },
     methods: {
         ...mapActions([
@@ -34,11 +53,13 @@ export default {
         // 清空状态
         recoverState() {
             this.clearMovies()
-            this.getMovies().then(data => {
-                this.getMoviesSuccess(data);
-            }).catch(e => {
-                this.getMoviesFailure();
-            })
+            this.getMovies()
+                .then(data => {
+                    this.getMoviesSuccess(data);
+                })
+                .catch(e => {
+                    this.getMoviesFailure();
+                })
         },
         // 清空
         clearInputValue() {
@@ -51,11 +72,13 @@ export default {
                     q: val
                 }
             } : {};
-            this.getMovies(searchParams).then(data => {
-                this.getMoviesSuccess(data);
-            }).catch(e => {
-                this.getMoviesFailure();
-            })
+            this.getMovies(searchParams)
+                .then(data => {
+                    this.getMoviesSuccess(data);
+                })
+                .catch(e => {
+                    this.getMoviesFailure();
+                })
         },
         // 获取数据
         fetchData: _.debounce(function(val) {
@@ -63,11 +86,6 @@ export default {
         }, 500),
         // 输入监听
         updateValue: function(val) {
-            if (val !== '') {
-                this.switchMovieTab(0)
-            } else {
-                this.recoverState()
-            }
             this.storageInputValue(val)
             this.fetchData(val)
         }

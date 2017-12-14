@@ -65,7 +65,7 @@ export default {
     overflow: hidden;
 }
 .y_bg01 {
-    background: url(../../assets/Brushes.png) no-repeat;
+    background-image: url(../../assets/Brushes.png);
     background-size: 100% auto;
     overflow: hidden
 }
