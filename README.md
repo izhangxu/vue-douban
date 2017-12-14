@@ -8,6 +8,7 @@
 [点击预览demo](http://www.izhangxu.com/vue_douban/)
 
 手机扫描二维码
+
 ![qr](/screenshot/qr.png)
 
 ## 安装
