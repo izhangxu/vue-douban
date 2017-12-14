@@ -11,11 +11,6 @@ import _ from '../../libs/util'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    data() {
-        return {
-            oScrollView: this.$parent.$refs.scrollView
-        }
-    },
     computed: {
         ...mapGetters([
             'inputValue',
@@ -23,22 +18,14 @@ export default {
         ])
     },
     created() {
-        this.switchMovieTab(this.inputValue ? 0 : 1)
-        this.fetchMovies(this.inputValue)
-    },
-    watch: {
-        'inputValue': (val) => {
-            if (val) {
-                this.switchMovieTab(0)
-                this.changeLoadTxt('')
-                if (this.oScrollView) {
-                    this.oScrollView.scrollTo(0, 0)
-                    this.disableScroll(true)
-                }
-            } else {
-                this.recoverState()
-            }
+        if (this.inputValue) {
+            this.disableScroll(true)
+            this.changeLoadTxt('')
+            this.switchMovieTab(0)
+        } else {
+            this.switchMovieTab(1)
         }
+        this.fetchMovies(this.inputValue);
     },
     methods: {
         ...mapActions([
@@ -48,7 +35,9 @@ export default {
             'storageInputValue',
             'getMovies',
             'getMoviesSuccess',
-            'getMoviesFailure'
+            'getMoviesFailure',
+            'changeLoadTxt',
+            'disableScroll'
         ]),
         // 清空状态
         recoverState() {
@@ -86,6 +75,17 @@ export default {
         }, 500),
         // 输入监听
         updateValue: function(val) {
+            if (val !== '') {
+                const oScrollView = this.$parent.$refs.scrollView
+                if (oScrollView) {
+                    oScrollView.scrollTo(0, 0)
+                    this.disableScroll(true)
+                }
+                this.switchMovieTab(0)
+                this.changeLoadTxt('')
+            } else {
+                this.recoverState()
+            }
             this.storageInputValue(val)
             this.fetchData(val)
         }

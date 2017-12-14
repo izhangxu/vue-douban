@@ -2,7 +2,13 @@
 
 > 豆瓣电影API做的vue项目，使用的vue + vue-router + vuex。
 
-![GIF 图片](/src/assets/2.gif)
+![GIF 图片](/screenshot/assets/douban.gif)
+
+## 预览
+[点击预览demo](http://www.izhangxu.com/vue_douban/)
+
+手机扫描二维码
+![qr](screenshot/assets/qr.png)
 
 ## 安装
 

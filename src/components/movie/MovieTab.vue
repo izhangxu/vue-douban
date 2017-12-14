@@ -34,10 +34,11 @@ export default {
         ]),
         selectTab(index) {
             if (index && index != this.movieTabIndex) {
+                const oScrollView = this.$parent.$refs.scrollView
                 this.switchMovieTab(index)
                 this.clearInputValue()
-                if (this.oScrollView) {
-                    this.oScrollView.scrollTo(0, 0)
+                if (oScrollView) {
+                    oScrollView.scrollTo(0, 0)
                     this.disableScroll(index == 4 ? true : false)
                     this.changeLoadTxt(index == 4 ? '' : '加载中...')
                 }

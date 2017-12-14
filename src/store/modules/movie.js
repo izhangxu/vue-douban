@@ -50,7 +50,7 @@ const actions = {
 			}
 			commit(types.SWITCH_MOVIE_TAB, index)
 		}
-		if (rootState.movieSearchApi.index && rootState.movieSearchApi.index !== index) {
+		if (rootState.movieSearchApi.index !== index) {
 			dispatch('switchSearchApi', index)
 		}
 	},
