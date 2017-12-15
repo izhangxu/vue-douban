@@ -4,7 +4,10 @@
 
 运行`npm run build`会在根目录生成vue_douban的文件夹，在根目录运行http-server启动服务后在 [http://localhost:8080/vue_douban](http://localhost:8080/vue_douban) 查看打包后的文件。
 
-![GIF 图片](/screenshot/douban.gif)
+![GIF 图片](/screenshot/douban_1.gif)
+![GIF 图片](/screenshot/douban_2.gif)
+![GIF 图片](/screenshot/douban_3.gif)
+![GIF 图片](/screenshot/douban_4.gif)
 
 ## 预览
 [点击预览demo](http://www.izhangxu.com/vue_douban/)
