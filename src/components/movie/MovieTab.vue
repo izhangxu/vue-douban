@@ -9,11 +9,6 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    data() {
-        return {
-            oScrollView: this.$parent.$refs.scrollView
-        }
-    },
     computed: {
         ...mapGetters([
             'movieTabData',
@@ -59,32 +54,3 @@ export default {
 }
 
 </script>
-<style type="text/css">
-.txt-slide-wrap {
-    width: 100%;
-    width: calc(100% - 20px);
-    margin: 0 10px;
-    height: 30px;
-    padding-bottom: 10px;
-    white-space: nowrap;
-}
-
-.txt-slide-wrap ul {
-    height: 100%
-}
-
-.txt-slide-wrap ul li {
-    float: left;
-    height: 24px;
-    line-height: 24px;
-    padding: 3px 0px;
-    text-align: center;
-    font-size: 12px;
-    cursor: pointer;
-}
-
-.txt-slide-wrap ul li.on {
-    border-bottom: 2px solid #ffe600;
-}
-
-</style>

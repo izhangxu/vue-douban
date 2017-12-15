@@ -158,14 +158,3 @@ export default {
 	}
 }
 </script>
-<style type="text/css">
-	.wrapper {
-		overflow: hidden;
-	    position: absolute;
-	    right: 0;
-    	left: 0;
-	    bottom: 47px;
-	    top: 86px;
-	    margin:0 10px;
-	}
-</style>

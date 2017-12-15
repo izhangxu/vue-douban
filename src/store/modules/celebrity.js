@@ -12,7 +12,7 @@ const getters = {
 const actions = {
 	// 获取人物数据
 	getCelebrity({ state, dispatch, commit, rootState }, id) {
-		dispatch('toggleLoading', true)
+		// dispatch('toggleLoading', true)
 		commit(types.GET_CELEBRITY_REQUEST)
 		const route = rootState.route;
 		if (route) {
@@ -23,11 +23,11 @@ const actions = {
 					} else {
 						commit(types.GET_CELEBRITY_FAILURE)
 					}
-					dispatch('toggleLoading', false)
+					// dispatch('toggleLoading', false)
 				})
 				.catch(e => {
 					commit(types.GET_CELEBRITY_FAILURE)
-					dispatch('toggleLoading', false)
+					// dispatch('toggleLoading', false)
 				})
 		}
 	}

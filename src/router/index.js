@@ -1,12 +1,17 @@
 import Vue from 'vue'
-import App from '../App'
-import Index from '../components/index/index'
-import Movie from '../components/movie/Movie'
-import Detail from '../components/detail/Detail'
-import Celebrity from '../components/celebrity/Celebrity'
-import Admin from '../components/admin/Admin'
-
 import VueRouter from 'vue-router'
+const App = () =>
+	import ('../App')
+const Index = () =>
+	import ('../components/index/index')
+const Movie = () =>
+	import ('../components/movie/Movie')
+const Detail = () =>
+	import ('../components/detail/Detail')
+const Celebrity = () =>
+	import ('../components/celebrity/Celebrity')
+const Admin = () =>
+	import ('../components/admin/Admin')
 
 Vue.use(VueRouter)
 
@@ -42,5 +47,12 @@ const routes = [{
 export default new VueRouter({
 	base: '/vue_douban/',
 	mode: 'history',
-	routes
+	routes,
+	scrollBehavior(to, from, savedPosition) {
+		if (savedPosition) {
+			return savedPosition
+		} else {
+			return { x: 0, y: 0 }
+		}
+	}
 })
