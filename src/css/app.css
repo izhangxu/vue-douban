@@ -272,6 +272,7 @@ section p {
 
 .y_toolbar .y_row a {
     text-decoration: none;
+    display: block;
 }
 
 .y_toolbar .y_row i {
