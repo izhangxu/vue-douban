@@ -32,8 +32,12 @@ module.exports = {
     'radix': 'off',
     'no-nested-ternary': 'off',
     'no-plusplus': ['error', {
-      "allowForLoopAfterthoughts": true
+      'allowForLoopAfterthoughts': true
     }],
+    'no-shadow': ['error', {
+      'allow': ['state']
+    }],
+    'no-unused-vars': 'warn',
   },
   parserOptions: {
     parser: 'babel-eslint'

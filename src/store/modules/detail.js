@@ -1,7 +1,7 @@
 import * as types from '../mutation-types';
 import service from '../../api/service';
 
-const oState = {
+const state = {
   detailData: [],
   collectList: [],
   collected: false,
@@ -15,10 +15,7 @@ const getters = {
 
 const actions = {
   // 获取电影数据
-  getDetail({
-    commit,
-    rootState,
-  }) {
+  getDetail({ commit, rootState }) {
     // dispatch('toggleLoading', true)
     commit(types.GET_DETAIL_REQUEST);
     const { route } = rootState;
@@ -37,18 +34,14 @@ const actions = {
           }
           // dispatch('toggleLoading', false)
         })
-        .catch(() => {
+        .catch((e) => {
           commit(types.GET_DETAIL_FAILURE);
           // dispatch('toggleLoading', false)
         });
     }
   },
   // 收藏
-  collectMovie({
-    state,
-    commit,
-    rootState,
-  }) {
+  collectMovie({ state, commit, rootState }) {
     const itemIndex = state.collectList.length ? state.collectList.findIndex(ele => ele.id === rootState.route.params.id) : -1;
     if (itemIndex < 0) {
       const item = state.detailData;
@@ -61,11 +54,8 @@ const actions = {
     }
   },
   // 初始化收藏状态
-  initCollectStats({
-    commit,
-    rootState,
-  }) {
-    const item = oState.collectList.find(ele => ele.id === rootState.route.params.id);
+  initCollectStats({ commit, rootState }) {
+    const item = state.collectList.find(ele => ele.id === rootState.route.params.id);
     commit(types.INIT_COLLECT_STATUS, !!item);
   },
 };
@@ -92,7 +82,7 @@ const mutations = {
 };
 
 export default {
-  state: oState,
+  state,
   getters,
   actions,
   mutations,
