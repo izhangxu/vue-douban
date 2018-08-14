@@ -1,11 +1,11 @@
 import * as types from '../mutation-types';
-import { data_movie_tabs, ajaxApi } from '../../api/data';
+import { dataMovieTabs, ajaxApi } from '../../api/data';
 import service from '../../api/service';
 
 const state = {
   movieListData: [],
   movieTabIndex: 1,
-  movieTabData: data_movie_tabs,
+  movieTabData: dataMovieTabs,
   movieTabStyle: '',
   cacheMovieTabIndex: 1,
   movieSearchClear: false,
