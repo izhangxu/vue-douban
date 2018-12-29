@@ -4,7 +4,10 @@ import { sync } from 'vuex-router-sync';
 import App from './App';
 import router from './router/';
 import store from './store/';
+import _ from './libs/lodash';
 import './styles/app.css';
+
+window._ = _;
 
 sync(store, router);
 
