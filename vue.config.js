@@ -1,5 +1,3 @@
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-
 module.exports = {
   devServer: {
     proxy: {
@@ -11,11 +9,6 @@ module.exports = {
         },
       },
     },
-  },
-  configureWebpack: {
-    plugins: [
-      new LodashModuleReplacementPlugin(),
-    ],
   },
   chainWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
