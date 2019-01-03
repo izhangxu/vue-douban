@@ -27,7 +27,6 @@ export default {
   },
   created() {
     this.initTabBar();
-    console.log(2);
   },
 };
 
