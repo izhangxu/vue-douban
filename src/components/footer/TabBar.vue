@@ -24,6 +24,7 @@ export default {
     ...mapActions([
       'initTabBar',
     ]),
+    console.log(3)
   },
   created() {
     this.initTabBar();
